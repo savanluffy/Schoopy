@@ -7,13 +7,14 @@ package pkgData;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
  * @author schueler
  */
 public class Room {
-    private String roomId;    //eindeutig
+    private String roomNr;    //eindeutig
     private String roomDescription;
     private Department department; //is null if it not a class room
     private ArrayList<Point> roomCoordinates;
@@ -21,20 +22,20 @@ public class Room {
     public Room() {
     }
 
-    public Room(String roomId, String roomDescription, Department department) {
-        this.roomId = roomId;
+    public Room(String roomNr, String roomDescription, Department department) {
+        this.roomNr = roomNr;
         this.roomDescription = roomDescription;
         this.department = department;
         roomCoordinates = new ArrayList<>();
     }
 
     
-    public String getRoomId() {
-        return roomId;
+    public String getRoomNr() {
+        return roomNr;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setRoomNr(String roomNr) {
+        this.roomNr = roomNr;
     }
 
     public String getRoomDescription() {
@@ -51,6 +52,31 @@ public class Room {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.roomNr);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Room other = (Room) obj;
+        if (!Objects.equals(this.roomNr, other.roomNr)) {
+            return false;
+        }
+        return true;
     }
 
     

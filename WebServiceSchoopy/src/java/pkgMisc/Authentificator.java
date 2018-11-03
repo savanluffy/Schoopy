@@ -5,7 +5,9 @@
  */
 package pkgMisc;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import pkgData.Person;
 
 /**
  *
@@ -13,18 +15,20 @@ import java.util.HashSet;
  */
 public class Authentificator {
 
-    private static HashSet<String> collTokens = new HashSet<>();
-
+    private static  HashSet<String> collTokens = new HashSet<>();
+    
     public static boolean isUserAuthenticated(String token) {
         return collTokens.contains(token);
     }
 
+
+        
     public static void loginToken(String token) {
-        if (!collTokens.contains(token)) {
-            collTokens.add(token);
+        if(!collTokens.contains(token)){
+            collTokens.add(token) ;
         }
     }
-
+    
     public static void logoutToken(String token) {
         if (collTokens.contains(token)) {
             collTokens.remove(token);

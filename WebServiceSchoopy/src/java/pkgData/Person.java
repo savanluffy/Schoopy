@@ -17,6 +17,10 @@ public abstract class Person {
     String username; //for teachers its kürzel for schueler its lastname+first letter of firstname
     String password;  
 
+    public Person(){
+    
+    }
+    
     public Person(String firstName, String lastName, String schoolemail, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;

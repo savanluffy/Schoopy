@@ -6,11 +6,11 @@
 package pkgServices;
 
 import com.google.gson.Gson;
+import java.time.LocalDate;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import pkgData.Database;
 import pkgData.Department;
+import pkgData.Message;
 import pkgData.Room;
 import pkgData.Student;
 
@@ -25,13 +26,13 @@ import pkgData.Student;
  *
  * @author schueler
  */
-@Path("rooms")
-public class RoomService {
+@Path("messages")
+public class MessageService {
 
     Gson gson;
     Database db = null;
 
-    public RoomService() {
+    public MessageService() {
         try {
             db = Database.newInstance();
             gson = new Gson();
@@ -41,59 +42,30 @@ public class RoomService {
     }
 
     @GET
+    @Path("/{classRoomNr}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getRooms() throws Exception {
-        return Response.ok().entity(gson.toJson(db.getAllRooms())).build();
-    }
-
-    @GET
-    @Path("/{roomNr}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response getRoom(@PathParam("roomNr") String roomNr) throws Exception {
-        Room room = db.getRoom(roomNr);
-        Response r = null;
-        if (room == null) {
-            r = Response.status(Response.Status.NOT_FOUND).entity("room not found").build();
-        } else {
-            r = Response.ok().entity(gson.toJson(room)).build();
-        }
-
-        return r;
+    public Response getChatMessages(@PathParam("classRoomNr") String roomNr) throws Exception {
+        return Response.ok().entity(gson.toJson(db.getChatMessages(roomNr))).build();
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response addNewRoom(String newRoom) throws Exception {
-
-        Response r = Response.status(Response.Status.CREATED).entity("room created").build();
+    public Response addNewChatMessage(String newMessage) throws Exception {
+        Response r = Response.status(Response.Status.CREATED).entity("message added").build();
         try {
-
-            db.addRoom(gson.fromJson(newRoom, Room.class));
+            db.addChatMessage(gson.fromJson(newMessage, Message.class));
         } catch (Exception ex) {
             r = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
         return r;
     }
-
-    @PUT
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response updateRoom(String roomToUpdate) throws Exception {
-        Response r = Response.ok().build();
-        try {
-            db.updateRoom(gson.fromJson(roomToUpdate, Room.class));
-        } catch (Exception ex) {
-            r = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
-        }
-        return r;
-    }
-
     @DELETE
-    @Path("/{roomNr}")
+    @Path("/{messageId}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response deleteRoom(@PathParam("roomNr") String roomNr) throws Exception {
+    public Response deleteChatMessage(@PathParam("messageId") int messageId) throws Exception {
         Response isDeleted = Response.ok().build();
         try {
-            db.deleteRoom(roomNr);
+            db.deleteChatMessage(messageId);
         } catch (Exception ex) {
             isDeleted = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }

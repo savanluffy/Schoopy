@@ -15,21 +15,20 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import pkgData.Database;
-import pkgData.Department;
-import pkgData.Room;
 import pkgData.Student;
+import pkgData.Teacher;
 
 /**
  *
  * @author schueler
  */
-@Path("students")
-public class StudentService {
-
+@Path("teachers")
+public class TeacherService {
+    
     Gson gson;
     Database db = null;
 
-    public StudentService() {
+    public TeacherService() {
         try {
             db = Database.newInstance();
             gson = new Gson();
@@ -40,32 +39,32 @@ public class StudentService {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getStudents() throws Exception {
-        return Response.ok().entity(gson.toJson(db.getAllStudents())).build();
+    public Response getTeachers() throws Exception {
+        return Response.ok().entity(gson.toJson(db.getAllTeachers())).build();
     }
 
     @GET
     @Path("/{username}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getStudent(@PathParam("username") String username) throws Exception {
-        Student s = db.getStudent(username);
+    public Response getTeacher(@PathParam("username") String username) throws Exception {
+        Teacher t = db.getTeacher(username);
         Response r = null;
-        if (s == null) {
-            r = Response.status(Response.Status.NOT_FOUND).entity("student not found").build();
+        if (t == null) {
+            r = Response.status(Response.Status.NOT_FOUND).entity("teacher not found").build();
         } else {
-            r = Response.ok().entity(gson.toJson(s)).build();
+            r = Response.ok().entity(gson.toJson(t)).build();
         }
 
         return r;
     }
 
     @POST
-    @Path("/register")
+    @Path("/add")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response registerStudent(String newStudent) throws Exception {
-        Response r = Response.status(Response.Status.CREATED).entity("student registered").build();
+    public Response addTeacher(String newTeacher) throws Exception {
+        Response r = Response.status(Response.Status.CREATED).entity("teacher added").build();
         try {
-            db.registerStudent(gson.fromJson(newStudent, Student.class));
+            db.addTeacher(gson.fromJson(newTeacher, Teacher.class));
         } catch (Exception ex) {
             r = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
@@ -76,17 +75,17 @@ public class StudentService {
     @Path("/login")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response loginStudent(String newStudent) throws Exception {
+    public Response loginTeacher(String teacher) throws Exception {
         Response r = null;
         try {
-            Student s = gson.fromJson(newStudent, Student.class);
-            s = db.loginStudent(s);
-            if (s == null) {
-                throw new Exception("no user found");
+            Teacher t = gson.fromJson(teacher, Teacher.class);
+            t = db.loginTeacher(t);
+            if (t == null) {
+                throw new Exception("no teacher found");
             }
             //String token = Encrypth.generateRandomKey(s.getUsername(), s.getPassword());
             // Authentificator.loginToken(token);
-            r = Response.ok().entity(gson.toJson(s)).build();
+            r = Response.ok().entity(gson.toJson(t)).build();
         } catch (Exception ex) {
             r = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
@@ -96,12 +95,12 @@ public class StudentService {
     @POST
     @Path("/update")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response updateStudent(String updateStudent) {
-        Response r = Response.ok().entity("student updated").build();
+    public Response update(String updateTeacher) {
+        Response r = Response.ok().entity("teacher updated").build();
         try {
-            boolean isUpdated = db.updateStudent(gson.fromJson(updateStudent,Student.class));
+            boolean isUpdated = db.updateTeacher(gson.fromJson(updateTeacher,Teacher.class));
             if (!isUpdated) {
-                throw new Exception("student not updated");
+                throw new Exception("teacher not updated");
             }
 
         } catch (Exception ex) {

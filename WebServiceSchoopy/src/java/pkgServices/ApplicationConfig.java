@@ -29,8 +29,10 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(pkgServices.MessageService.class);
         resources.add(pkgServices.RoomService.class);
         resources.add(pkgServices.StudentService.class);
+        resources.add(pkgServices.TeacherService.class);
        
     }
     
