@@ -10,5 +10,5 @@ package pkgData;
  * @author schueler
  */
 public enum WeekDay {
-    MONDAY
+    MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY
 }

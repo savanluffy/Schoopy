@@ -5,12 +5,6 @@
  */
 package pkgData;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.nio.file.Files;
-import java.security.spec.KeySpec;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -19,10 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collection;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import pkgMisc.Encrypth;
 
 /**
@@ -427,6 +418,251 @@ public class Database {
         String select = "DELETE FROM PrivateFile WHERE fileId=?";
         PreparedStatement stmt = conn.prepareStatement(select);
         stmt.setInt(1, fileId);
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    public Collection<Subject> getAllSubjects() throws Exception {
+        ArrayList<Subject> collSubjects = new ArrayList<>();
+
+        conn = createConnection();
+        String select = "SELECT * FROM Subject";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collSubjects.add(getSubjectValues(rs));
+        }
+        conn.close();
+        return collSubjects;
+    }
+
+    public Subject getSubject(int subjectId) throws Exception {
+        conn = createConnection();
+        String select = "SELECT * FROM Subject WHERE subjectId=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setInt(1, subjectId);
+        ResultSet rs = stmt.executeQuery();
+        Subject foundSubject = null;
+        while (rs.next()) {
+            foundSubject = getSubjectValues(rs);
+        }
+        conn.close();
+        return foundSubject;
+    }
+
+    public void addSubject(Subject newSubject) throws Exception {
+        conn = createConnection();
+        String select = "INSERT INTO Subject VALUES(seqSubject.NEXTVAL,?,?)";
+
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, newSubject.getSubjectName());
+        stmt.setString(2, newSubject.getSubjectShortcut());
+
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    public boolean updateSubject(Subject updateS) throws Exception {
+        boolean res = false;
+        conn = createConnection();
+        String select = "UPDATE Subject SET subjectName=?, subjectShortcut=? where subjectId=?";
+
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, updateS.getSubjectName());
+        stmt.setString(2, updateS.getSubjectShortcut());
+        stmt.setInt(3, updateS.getSubjectId());
+        int numOfUpdatedRows = stmt.executeUpdate();
+        if (numOfUpdatedRows == 1) {
+            res = true;
+        }
+        conn.close();
+        return res;
+    }
+
+    public void deleteSubject(int subjectId) throws Exception {
+        deleteTeacherSpecializationsBySubject(subjectId);
+        conn = createConnection();
+        String select = "DELETE FROM Subject WHERE subjectId=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setInt(1, subjectId);
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    private Subject getSubjectValues(ResultSet rs) throws Exception {
+        return (new Subject(rs.getInt("subjectId"), rs.getString("subjectName"), rs.getString("subjectShortcut")));
+
+    }
+
+    public Collection<TeacherSpecialization> getTeacherSpecializationsByTeacher(String teacherUsername) throws Exception {
+        ArrayList<TeacherSpecialization> collTeacherSpecialization = new ArrayList<>();
+
+        conn = createConnection();
+        String select = "SELECT * FROM TeacherSpecialization WHERE teacherUN=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, teacherUsername);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collTeacherSpecialization.add(getTeacherSpecializationValues(rs));
+        }
+        conn.close();
+        return collTeacherSpecialization;
+    }
+
+    public Collection<TeacherSpecialization> getTeacherSpecializationsBySubject(int subjectId) throws Exception {
+        ArrayList<TeacherSpecialization> collTeacherSpecialization = new ArrayList<>();
+
+        conn = createConnection();
+        String select = "SELECT * FROM TeacherSpecialization WHERE subjectId=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setInt(1, subjectId);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collTeacherSpecialization.add(getTeacherSpecializationValues(rs));
+        }
+        conn.close();
+        return collTeacherSpecialization;
+    }
+
+    private TeacherSpecialization getTeacherSpecializationValues(ResultSet rs) throws Exception {
+        return new TeacherSpecialization(getTeacher(rs.getString("teacherUN")), getSubject(rs.getInt("subjectId")));
+    }
+
+    public void addTeacherSpecialization(TeacherSpecialization newTeacherSpecialization) throws Exception {
+        conn = createConnection();
+        String select = "INSERT INTO TeacherSpecialization VALUES(?,?)";
+
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, newTeacherSpecialization.getTeacher().getUsername());
+        stmt.setInt(2, newTeacherSpecialization.getSubject().getSubjectId());
+
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    public void deleteTeacherSpecialization(String teacherUN, int subjectId) throws Exception {
+        deleteLessonsByTeacherSpecialization(teacherUN, subjectId);
+        conn = createConnection();
+        String select = "DELETE FROM TeacherSpecialization WHERE teacherUN=? AND subjectId=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, teacherUN);
+        stmt.setInt(2, subjectId);
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    //helper
+    private void deleteTeacherSpecializationsBySubject(int subjectId) throws Exception {
+        deleteLessonsBySubject(subjectId);
+        conn = createConnection();
+        String select = "DELETE FROM TeacherSpecialization WHERE subjectId=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setInt(1, subjectId);
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    //helper
+    private void deleteLessonsBySubject(int subjectId) throws Exception {
+        conn = createConnection();
+        String select = "DELETE FROM Lesson WHERE teachingSubject=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setInt(1, subjectId);
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    //helper
+    private void deleteLessonsByTeacherSpecialization(String teacherUN, int subjectId) throws Exception {
+        conn = createConnection();
+        String select = "DELETE FROM Lesson WHERE teacherUN=? AND teachingSubject=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, teacherUN);
+        stmt.setInt(2, subjectId);
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    public Collection<Lesson> getAllLessonsBySchoolRoom(String roomNr) throws Exception {
+        ArrayList<Lesson> collLessons = new ArrayList<>();
+
+        conn = createConnection();
+        String select = "SELECT * FROM Lesson WHERE schoolRoom=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, roomNr);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collLessons.add(getLessonValues(rs));
+        }
+        conn.close();
+        return collLessons;
+    }
+
+    private Lesson getLessonValues(ResultSet rs) throws Exception {
+        Lesson l = new Lesson(getRoom(rs.getString("schoolRoom")), getRoom(rs.getString("teachingRoom")),
+                getTeacher(rs.getString("teacherUN")), getSubject(rs.getInt("teachingSubject")), WeekDay.valueOf(rs.getString("weekDay")), rs.getInt("schoolHour"));
+        return l;
+    }
+
+    public Collection<Lesson> getAllLessonsByTeacher(String teacherUN) throws Exception {
+        ArrayList<Lesson> collLessons = new ArrayList<>();
+        conn = createConnection();
+        String select = "SELECT * FROM Lesson WHERE teacherUN=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, teacherUN);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collLessons.add(getLessonValues(rs));
+        }
+        conn.close();
+        return collLessons;
+    }
+
+    public void addLesson(Lesson newLesson) throws Exception {
+        conn = createConnection();
+        String select = "INSERT INTO Lesson VALUES(?,?,?,?,?,?)";
+
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, newLesson.getSchoolRoom().getRoomNr());
+        stmt.setString(2, newLesson.getTeachingRoom().getRoomNr());
+        stmt.setString(3, newLesson.getTeacher().getUsername());
+        stmt.setInt(4, newLesson.getTeachingSubject().getSubjectId());
+        stmt.setString(5, newLesson.getWeekDay().name());
+        stmt.setInt(6, newLesson.getSchoolHour());
+        stmt.executeQuery();
+        conn.close();
+
+    }
+
+    public boolean updateLesson(Lesson updateLesson) throws Exception {
+
+        boolean res = false;
+        conn = createConnection();
+
+        String select = "UPDATE Lesson SET teachingRoom=?, teachingSubject=?,teacherUN=? WHERE schoolRoom = ? AND schoolHour=? AND "
+                + " weekDay=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, updateLesson.getTeachingRoom().getRoomNr());
+        stmt.setInt(2, updateLesson.getTeachingSubject().getSubjectId());
+        stmt.setString(3, updateLesson.getTeacher().getUsername());
+        stmt.setString(4, updateLesson.getSchoolRoom().getRoomNr());
+        stmt.setInt(5, updateLesson.getSchoolHour());
+        stmt.setString(6, updateLesson.getWeekDay().name());
+        int numOfUpdatedRows = stmt.executeUpdate();
+        if (numOfUpdatedRows == 1) {
+            res = true;
+        }
+        conn.close();
+        return res;
+    }
+
+    public void deleteLesson(String schoolRoom, String weekDay, int schoolHour) throws Exception {
+        conn = createConnection();
+        String select = "DELETE FROM Lesson WHERE schoolRoom=? AND weekDay=? AND schoolHour=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, schoolRoom);
+        stmt.setString(2, weekDay);
+        stmt.setInt(3, schoolHour);
         stmt.executeQuery();
         conn.close();
     }
