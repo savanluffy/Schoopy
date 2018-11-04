@@ -5,7 +5,12 @@
  */
 package pkgData;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.file.Files;
 import java.security.spec.KeySpec;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -332,4 +337,98 @@ public class Database {
         stmt.executeQuery();
         conn.close();
     }
+
+    public Collection<PublicFile> getAllPublicFiles() throws Exception {
+        ArrayList<PublicFile> collPublicFiles = new ArrayList<>();
+
+        conn = createConnection();
+        String select = "SELECT * FROM PublicFile";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collPublicFiles.add(getPublicFileValues(rs));
+        }
+        conn.close();
+        return collPublicFiles;
+    }
+
+    private PublicFile getPublicFileValues(ResultSet rs) throws Exception {
+        PublicFile pf = new PublicFile(rs.getInt("fileId"), rs.getString("fileName"), rs.getBytes("fileContent"),
+                rs.getDate("publishDate").toLocalDate(), getTeacher(rs.getString("publisherTeacher")));
+        return pf;
+    }
+
+    public void addPublicFile(PublicFile newPubicFile) throws Exception {
+        conn = createConnection();
+        String select = "INSERT INTO PublicFile VALUES(seqPublicFile.NEXTVAL,?,?,?,?)";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, newPubicFile.getFileName());
+        stmt.setBytes(2, newPubicFile.getFileContent());
+        stmt.setDate(3, Date.valueOf(LocalDate.now()));
+        stmt.setString(4, newPubicFile.getPublisherTeacher().getUsername());
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    public void deletePublicFile(int fileId) throws Exception {
+        conn = createConnection();
+        String select = "DELETE FROM PublicFile WHERE fileId=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setInt(1, fileId);
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    public Collection<PrivateFile> getPrivateFiles(String folderRoomNr) throws Exception {
+        ArrayList<PrivateFile> collPrivateFiles = new ArrayList<>();
+
+        conn = createConnection();
+        String select = "SELECT * FROM PrivateFile WHERE folderRoom=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, folderRoomNr);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collPrivateFiles.add(getPrivateFileValues(rs));
+        }
+        conn.close();
+        return collPrivateFiles;
+    }
+
+    private PrivateFile getPrivateFileValues(ResultSet rs) throws Exception {
+        PrivateFile pf = new PrivateFile(rs.getInt("fileId"), rs.getString("fileName"), rs.getBytes("fileContent"),
+                rs.getDate("publishDate").toLocalDate(), getTeacher(rs.getString("publisherTeacher")), getStudent(rs.getString("publisherStudent")), getRoom(rs.getString("folderRoom")));
+        return pf;
+
+    }
+
+    public void addPrivateFile(PrivateFile newPrivateFile) throws Exception {
+        conn = createConnection();
+        String select = "INSERT INTO PrivateFile VALUES(seqPrivateFile.NEXTVAL,?,?,?,?,?,?)";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, newPrivateFile.getFileName());
+        stmt.setBytes(2, newPrivateFile.getFileContent());
+        stmt.setDate(3, Date.valueOf(LocalDate.now()));
+        Teacher t = newPrivateFile.getPublisherTeacher();
+        if (t == null) {
+            stmt.setString(4, null);
+            stmt.setString(5, newPrivateFile.getPublisherStudent().getUsername());
+
+        } else {
+            stmt.setString(4, t.getUsername());
+            stmt.setString(5, null);
+        }
+        stmt.setString(6, newPrivateFile.getFolderRoom().getRoomNr());
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    public void deletePrivateFile(int fileId) throws Exception {
+        conn = createConnection();
+        String select = "DELETE FROM PrivateFile WHERE fileId=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setInt(1, fileId);
+        stmt.executeQuery();
+        conn.close();
+    }
+
 }

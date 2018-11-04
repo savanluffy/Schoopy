@@ -23,17 +23,18 @@ public class ApplicationConfig extends Application {
     }
 
     /**
-     * Do not modify addRestResourceClasses() method.
-     * It is automatically populated with
-     * all resources defined in the project.
-     * If required, comment out calling this method in getClasses().
+     * Do not modify addRestResourceClasses() method. It is automatically
+     * populated with all resources defined in the project. If required, comment
+     * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(pkgServices.MessageService.class);
+        resources.add(pkgServices.PrivateFileService.class);
+        resources.add(pkgServices.PublicFileService.class);
         resources.add(pkgServices.RoomService.class);
         resources.add(pkgServices.StudentService.class);
         resources.add(pkgServices.TeacherService.class);
-       
+
     }
-    
+
 }
