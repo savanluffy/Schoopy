@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application {
         resources.add(pkgServices.PrivateFileService.class);
         resources.add(pkgServices.PublicFileService.class);
         resources.add(pkgServices.RoomService.class);
+        resources.add(pkgServices.SchoopyAdminService.class);
         resources.add(pkgServices.StudentService.class);
         resources.add(pkgServices.SubjectService.class);
         resources.add(pkgServices.TeacherService.class);
