@@ -16,3 +16,7 @@ C:\Users\Sandro\Desktop\Schule 2018\BSD\Schoopy\Schoopy\obj\Debug\MainPage.g.cs
 C:\Users\Sandro\Desktop\Schule 2018\BSD\Schoopy\Schoopy\obj\Debug\MainPage.baml
 C:\Users\Sandro\Desktop\Schule 2018\BSD\Schoopy\Schoopy\obj\Debug\StudenplanWindow.g.cs
 C:\Users\Sandro\Desktop\Schule 2018\BSD\Schoopy\Schoopy\obj\Debug\StudenplanWindow.baml
+C:\Users\Sandro\Desktop\Schule 2018\BSD\Schoopy\Schoopy\obj\Debug\MainUserControll.g.cs
+C:\Users\Sandro\Desktop\Schule 2018\BSD\Schoopy\Schoopy\obj\Debug\UserControl1.g.cs
+C:\Users\Sandro\Desktop\Schule 2018\BSD\Schoopy\Schoopy\obj\Debug\MainUserControll.baml
+C:\Users\Sandro\Desktop\Schule 2018\BSD\Schoopy\Schoopy\obj\Debug\UserControl1.baml

@@ -55,10 +55,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MainUserControll.xaml.cs">
+      <DependentUpon>MainUserControll.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StudenplanWindow.xaml.cs">
       <DependentUpon>StudenplanWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Stunde.cs" />
+    <Compile Include="UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainUserControll.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -78,6 +89,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="StudenplanWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

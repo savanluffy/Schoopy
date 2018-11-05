@@ -33,8 +33,25 @@ namespace Schoopy
         private void initStdplan()
         {
 
+            this.listView.Items.Add(new Stunde { Montag = "Deutsch", Dienstag = "Deutsch",Mittwoch="POS", Donnerstag="POS" ,Freitag ="BSD" });
 
-           
+            this.listView.Items.Add(new Stunde { Montag = "Deutsch", Dienstag = "Deutsch", Mittwoch = "POS", Donnerstag = "POS", Freitag = "BSD" });
+
+            this.listView.Items.Add(new Stunde { Montag = "Deutsch", Dienstag = "Deutsch", Mittwoch = "POS", Donnerstag = "POS", Freitag = "BSD" });
+
+            this.listView.Items.Add(new Stunde { Montag = "Deutsch", Dienstag = "Deutsch", Mittwoch = "POS", Donnerstag = "POS", Freitag = "BSD" });
+
+            this.listView.Items.Add(new Stunde { Montag = "Deutsch", Dienstag = "Deutsch", Mittwoch = "POS", Donnerstag = "POS", Freitag = "BSD" });
+
+            this.listView.Items.Add(new Stunde { Montag = "Deutsch", Dienstag = "Deutsch", Mittwoch = "POS", Donnerstag = "POS", Freitag = "BSD" });
+
+            this.listView.Items.Add(new Stunde { Montag = "Deutsch", Dienstag = "Deutsch", Mittwoch = "POS", Donnerstag = "POS", Freitag = "BSD" });
+
+            this.listView.Items.Add(new Stunde { Montag = "Deutsch", Dienstag = "Deutsch", Mittwoch = "POS", Donnerstag = "POS", Freitag = "BSD" });
+
+            this.listView.Items.Add(new Stunde { Montag = "Deutsch", Dienstag = "Deutsch", Mittwoch = "POS", Donnerstag = "POS", Freitag = "BSD" });
+
+
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -46,5 +63,16 @@ namespace Schoopy
         {
             
         }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void listView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine(sender.ToString());
+        }
+    
     }
 }

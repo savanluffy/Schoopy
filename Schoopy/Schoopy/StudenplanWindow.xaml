@@ -7,32 +7,36 @@
         mc:Ignorable="d"
         Title="StudenplanWindow" Height="300" Width="512.658">
     <Grid>
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="292">
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="505">
 
             <MenuItem Header="Stundenplan" Click="MenuItem_Click">
             </MenuItem>
             <MenuItem Header="Dokumente" Click="MenuItem_Click_1">
             </MenuItem>
+            <MenuItem Header="Schüler" Click="MenuItem_Click_2">
+            </MenuItem>
         </Menu>
         <Button x:Name="buttonLast" Content="&lt;-" HorizontalAlignment="Left" Height="20" Margin="0,25,0,0" VerticalAlignment="Top" Width="99" Click="button_Click"/>
         <Button x:Name="buttonNext" Content="-&gt;" HorizontalAlignment="Left" Height="20" Margin="194,25,0,0" VerticalAlignment="Top" Width="98"/>
-        <ListView x:Name="listView" HorizontalAlignment="Left" Height="191" Margin="0,68,0,0" VerticalAlignment="Top" Width="505">
+        <ListView x:Name="listView" HorizontalAlignment="Left" Height="191" Margin="0,68,0,0" VerticalAlignment="Top" Width="495" MouseDoubleClick="listView_MouseDoubleClick">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
-                    <GridViewColumn/>
-                    <GridViewColumn/>
-                    <GridViewColumn/>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="Montag" DisplayMemberBinding="{Binding Montag}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock MouseLeftButtonDown="listView_MouseDoubleClick" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Dienstag" DisplayMemberBinding="{Binding Dienstag}"/>
+                    <GridViewColumn Header="Mittwoch" DisplayMemberBinding="{Binding Mittwoch}"/>
+                    <GridViewColumn Header="Donnerstag" DisplayMemberBinding="{Binding Donnerstag}"/>
+                    <GridViewColumn Header="Freitag" DisplayMemberBinding="{Binding Freitag}"/>
                 </GridView>
             </ListView.View>
-            <Button x:Name="button1" Content="Button" Width="75"/>
-            <Button x:Name="button" Content="Button" Width="75"/>
-            <Button x:Name="button2" Content="Button" Width="75"/>
-            <Button x:Name="button3" Content="Button" Width="75"/>
-            <Button x:Name="button4" Content="Button" Width="75"/>
-            <Button x:Name="button5" Content="Button" Width="75"/>
+           
         </ListView>
+      
 
     </Grid>
 </Window>
