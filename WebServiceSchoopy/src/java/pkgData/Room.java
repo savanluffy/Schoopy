@@ -8,6 +8,7 @@ package pkgData;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Objects;
+import oracle.spatial.geometry.JGeometry;
 
 /**
  *
@@ -17,16 +18,16 @@ public class Room {
     private String roomNr;    //eindeutig
     private String roomDescription;
     private Department department; //is null if it not a class room
-    private ArrayList<Point> roomCoordinates;
-
+    private double[] roomCoordinates;
+    
     public Room() {
     }
 
-    public Room(String roomNr, String roomDescription, Department department) {
+    public Room(String roomNr, String roomDescription, Department department,double [] coord) {
         this.roomNr = roomNr;
         this.roomDescription = roomDescription;
         this.department = department;
-        roomCoordinates = new ArrayList<>();
+        this.roomCoordinates = coord;
     }
 
     
@@ -54,6 +55,22 @@ public class Room {
         this.department = department;
     }
 
+    public double[] getRoomCoordinates() {
+        return roomCoordinates;
+    }
+
+    public void setRoomCoordinates(double[] roomCoordinates) {
+        this.roomCoordinates = roomCoordinates;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" + "roomNr=" + roomNr + ", roomDescription=" + roomDescription + ", department=" + department + ", roomCoordinates=" + roomCoordinates + '}';
+    }
+    
+    
+
+    
     @Override
     public int hashCode() {
         int hash = 5;

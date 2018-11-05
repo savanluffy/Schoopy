@@ -10,11 +10,13 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import oracle.spatial.geometry.JGeometry;
+import oracle.sql.STRUCT;
 import pkgMisc.Encrypth;
+import pkgServices.SchoopyAdminService;
 
 /**
  *
@@ -164,17 +166,21 @@ public class Database {
     }
 
     private Room getRoomValues(ResultSet rs) throws Exception {
-        return (new Room(rs.getString("roomNr"), rs.getString("roomDescription"), Department.valueOf(rs.getString("department"))));
+        STRUCT st = (oracle.sql.STRUCT) rs.getObject("roomCoordinates");
+        JGeometry roomCoordinates = JGeometry.loadJS(st);
+        return (new Room(rs.getString("roomNr"), rs.getString("roomDescription"), Department.valueOf(rs.getString("department")), roomCoordinates.getOrdinatesArray()));
     }
 
     public void addRoom(Room r) throws Exception {
         conn = createConnection();
-        String select = "INSERT INTO Room VALUES(?,?,?)";
+        String select = "INSERT INTO Room VALUES(?,?,?,?)";
 
         PreparedStatement stmt = conn.prepareStatement(select);
         stmt.setString(1, r.getRoomNr());
         stmt.setString(2, r.getRoomDescription());
         stmt.setString(3, r.getDepartment().name());
+        STRUCT obj = (STRUCT) JGeometry.storeJS(conn, new JGeometry(JGeometry.GTYPE_POLYGON, 0, new int[]{1, 1003, 1}, r.getRoomCoordinates()));
+        stmt.setObject(4, obj);
 
         stmt.executeQuery();
         conn.close();
@@ -183,11 +189,13 @@ public class Database {
     public void updateRoom(Room roomToUpdate) throws Exception {
         conn = createConnection();
 
-        String select = "UPDATE Room SET roomDescription=?, department=? WHERE roomNr = ?";
+        String select = "UPDATE Room SET roomDescription=?, department=?,roomCoordinates=? WHERE roomNr = ?";
         PreparedStatement stmt = conn.prepareStatement(select);
         stmt.setString(1, roomToUpdate.getRoomDescription());
         stmt.setString(2, roomToUpdate.getDepartment().name());
-        stmt.setString(3, roomToUpdate.getRoomNr());
+        STRUCT obj = (STRUCT) JGeometry.storeJS(conn, new JGeometry(JGeometry.GTYPE_POLYGON, 0, new int[]{1, 1003, 1}, roomToUpdate.getRoomCoordinates()));
+        stmt.setObject(3, obj);
+        stmt.setString(4, roomToUpdate.getRoomNr());
 
         stmt.executeQuery();
         conn.close();
@@ -665,6 +673,36 @@ public class Database {
         stmt.setInt(3, schoolHour);
         stmt.executeQuery();
         conn.close();
+    }
+
+    public SchoopyAdmin loginSchoopyAdmin(SchoopyAdmin sa) throws Exception {
+        conn = createConnection();
+        String select = "SELECT * FROM SchoopyAdmin WHERE username=? and password=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, sa.getUsername());
+        stmt.setString(2, Encrypth.hashPW(sa.getPassword()));
+        ResultSet rs = stmt.executeQuery();
+        SchoopyAdmin foundSchoopyAdmin = null;
+        while (rs.next()) {
+            foundSchoopyAdmin = getSchoopyAdminValues(rs);
+        }
+        conn.close();
+        return foundSchoopyAdmin;
+    }
+
+    public void addSchoopyAdmin(SchoopyAdmin newSA) throws Exception {
+        conn = createConnection();
+        String select = "INSERT INTO SchoopyAdmin VALUES(?,?)";
+
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, newSA.getUsername());
+        stmt.setString(2, Encrypth.hashPW(newSA.getPassword()));
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    private SchoopyAdmin getSchoopyAdminValues(ResultSet rs) throws Exception{
+        return new SchoopyAdmin(rs.getString("username"),rs.getString("password"));
     }
 
 }
