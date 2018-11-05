@@ -1,4 +1,4 @@
-Maljuric: WebService + Admin Application
+Maljuric: WebService (finished) + Admin Application
 Unterkofler: Teacher C# WPF Application
 Bugelnig: Frontend Student Android App
 Haracic: Backend Student Android App
