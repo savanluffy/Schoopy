@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/homepage"
+        android:title="Homepage"
+        android:icon="@drawable/ic_homepage"></item>
+    <item android:id="@+id/MyAccount"
+        android:title="My Account"
+        android:icon="@drawable/ic_person"></item>
+    <item android:id="@+id/timetable"
+        android:title="Timetable"
+        android:icon="@drawable/ic_timetable"></item>
+    <item android:id="@+id/findTheTeacher"
+        android:title="Find The Teacher"
+        android:icon="@drawable/ic_my_location"></item>
+    <item android:id="@+id/logout"
+        android:title="Logout"></item>
+</menu>

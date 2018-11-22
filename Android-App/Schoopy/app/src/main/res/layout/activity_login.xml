@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Misc.Login">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="105dp"
+        android:contentDescription="@string/iconAtLogin"
+        app:srcCompat="@drawable/icon" />
+
+    <EditText
+        android:id="@+id/txtEmail"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp"
+        android:layout_marginBottom="256dp"
+        android:drawableStart="@drawable/ic_email"
+        android:ems="10"
+        android:textColor="@color/white"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/icon"
+        android:layout_alignStart="@id/txtEmail"
+        android:layout_alignEnd="@id/txtEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="-1dp"
+        android:drawableStart="@drawable/ic_lock"
+        android:textColor="@color/white"
+        android:ems="10"
+        android:hint="@string/txtPassword"
+        android:inputType="textEmailAddress"
+        android:textSize="16sp"
+        tools:ignore="TextFields" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/btnLogin"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="80dp"
+        app:cardBackgroundColor="@color/turquoise"
+        app:cardCornerRadius="25dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btnLogin"
+            android:layout_alignStart="@+id/btnLogin">
+
+            <TextView
+                android:id="@+id/txtLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="23dp"
+        android:text="@string/title"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+</RelativeLayout>

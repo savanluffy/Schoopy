@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Schoopy</string>
+    <string name="iconAtLogin">iconLogin</string>
+    <string name="email">E-mail</string>
+    <string name="txtPassword">Password</string>
+    <string name="fontSchoopy">\@font/sans-serif-medium</string>
+    <string name="login">Login</string>
+    <string name="title">Schoopy - My School Planner</string>
+    <string name="textLayout">Text</string>
+</resources>
