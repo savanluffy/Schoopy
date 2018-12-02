@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="pkgControllers.TeacherController">
+<AnchorPane id="AnchorPane" prefHeight="625.0" prefWidth="817.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pkgControllers.TeacherController">
    <children>
-      <JFXTreeTableView fx:id="tableTeachers" layoutX="12.0" layoutY="63.0" prefHeight="221.0" prefWidth="576.0" />
-      <JFXButton fx:id="btnAddTeacher" layoutX="454.0" layoutY="15.0" onAction="#handleButtonAction" prefHeight="45.0" prefWidth="133.0" style="-fx-background-color: #c1ff47;" text="Add Teacher" />
+      <JFXButton fx:id="btnAddTeacher" layoutX="14.0" layoutY="6.0" onAction="#onBtnClick" prefHeight="42.0" prefWidth="189.0" style="-fx-background-color: LIGHTGREEN;" text="Add Teacher" />
+      <JFXButton fx:id="btnUpdateTeacher" layoutX="221.0" layoutY="6.0" onAction="#onBtnClick" prefHeight="42.0" prefWidth="179.0" style="-fx-background-color: LIGHTGREY;" text="Update Teacher" />
+      <JFXButton fx:id="btnDeleteTeacher" layoutX="413.0" layoutY="6.0" onAction="#onBtnClick" prefHeight="42.0" prefWidth="179.0" style="-fx-background-color: RED;" text="Delete Teacher" />
+      <JFXTextField fx:id="txtFilter" layoutX="622.0" layoutY="6.0" onKeyPressed="#onPress" prefHeight="42.0" prefWidth="189.0" promptText="enter text to filter" />
+      <TableView fx:id="tableTeachers" layoutX="13.0" layoutY="57.0" prefHeight="564.0" prefWidth="800.0">
+         <columns>
+            <TableColumn fx:id="tc_firstName" prefWidth="186.0" text="First Name" />
+            <TableColumn fx:id="tc_lastName" prefWidth="212.0" text="Last Name" />
+            <TableColumn fx:id="tc_username" prefWidth="187.0" text="Username" />
+            <TableColumn fx:id="tc_schoolemail" prefWidth="214.0" text="School Email" />
+         </columns>
+      </TableView>
+      <StackPane fx:id="mySP" layoutX="310.0" layoutY="224.0" prefHeight="53.0" prefWidth="99.0" />
    </children>
 </AnchorPane>

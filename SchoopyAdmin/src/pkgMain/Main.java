@@ -25,7 +25,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/pkgViews/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/pkgViews/MainMenu.fxml"));
 //we gonna remove the borderless thingie.  
         stage.initStyle(StageStyle.DECORATED);
         stage.setMaximized(false);
