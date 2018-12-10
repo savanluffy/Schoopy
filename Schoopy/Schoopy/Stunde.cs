@@ -6,13 +6,27 @@ using System.Threading.Tasks;
 
 namespace Schoopy
 {
-    class Stunde
+    public class Stunde
     {
-        public string Montag { get; set; }
-        public string Dienstag { get; set; }
-        public string Mittwoch { get; set; }
-        public string Donnerstag { get; set; }
-        public string Freitag { get; set; }
 
+
+        
+        public string Tag { get; set; }
+        public string Stundett { get; set; }
+        public string Lehrer { get; set; }
+     
+
+        public Stunde(string _tag , string _st , string _lehrer)
+        {
+            this.Tag = _tag;
+            this.Stundett = _st;
+            this.Lehrer = _lehrer;
+        }
+
+        public override string ToString()
+        {
+
+            return this.Stundett;
+        }
     }
 }

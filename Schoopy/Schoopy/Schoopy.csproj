@@ -62,6 +62,7 @@
       <DependentUpon>StudenplanWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Stunde.cs" />
+    <Compile Include="Stundenplan.cs" />
     <Compile Include="UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>

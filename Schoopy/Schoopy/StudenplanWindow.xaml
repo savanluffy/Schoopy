@@ -16,27 +16,24 @@
             <MenuItem Header="Schüler" Click="MenuItem_Click_2">
             </MenuItem>
         </Menu>
-        <Button x:Name="buttonLast" Content="&lt;-" HorizontalAlignment="Left" Height="20" Margin="0,25,0,0" VerticalAlignment="Top" Width="99" Click="button_Click"/>
-        <Button x:Name="buttonNext" Content="-&gt;" HorizontalAlignment="Left" Height="20" Margin="194,25,0,0" VerticalAlignment="Top" Width="98"/>
-        <ListView x:Name="listView" HorizontalAlignment="Left" Height="191" Margin="0,68,0,0" VerticalAlignment="Top" Width="495" MouseDoubleClick="listView_MouseDoubleClick">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Montag" DisplayMemberBinding="{Binding Montag}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock MouseLeftButtonDown="listView_MouseDoubleClick" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Dienstag" DisplayMemberBinding="{Binding Dienstag}"/>
-                    <GridViewColumn Header="Mittwoch" DisplayMemberBinding="{Binding Mittwoch}"/>
-                    <GridViewColumn Header="Donnerstag" DisplayMemberBinding="{Binding Donnerstag}"/>
-                    <GridViewColumn Header="Freitag" DisplayMemberBinding="{Binding Freitag}"/>
-                </GridView>
-            </ListView.View>
-           
-        </ListView>
-      
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="0,68,0,0" VerticalAlignment="Top" Width="495" Height="191"  SelectionUnit="Cell"   >
+            <DataGrid.Columns > 
+                <DataGridTextColumn Header="Montag" Width="*" x:Name="col1" />
+                <DataGridTextColumn Header="Dienstag"  Width="*" x:Name="col2"/>
+                <DataGridTextColumn Header="Mittwoch"  Width="*" x:Name="col3"/>
+                <DataGridTextColumn Header="Donnerstag"  Width="*" x:Name="col4"/>
+                <DataGridTextColumn Header="Freitag"  Width="*" x:Name="col5"/>
+            </DataGrid.Columns>
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                   
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
+        <TextBox x:Name="ClickedItemDisplay" HorizontalAlignment="Left" Height="38" Margin="341,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="130"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="123,38,0,0" VerticalAlignment="Top" Width="75" Click="button_Click_1"/>
+
+
 
     </Grid>
 </Window>
