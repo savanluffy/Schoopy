@@ -99,7 +99,7 @@ namespace Schoopy {
         
         #line 33 "..\..\StudenplanWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
-        internal System.Windows.Controls.TextBox ClickedItemDisplay;
+        internal System.Windows.Controls.Button button;
         
         #line default
         #line hidden
@@ -107,7 +107,15 @@ namespace Schoopy {
         
         #line 34 "..\..\StudenplanWindow.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
-        internal System.Windows.Controls.Button button;
+        internal System.Windows.Controls.Button button1;
+        
+        #line default
+        #line hidden
+        
+        
+        #line 35 "..\..\StudenplanWindow.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Button button2;
         
         #line default
         #line hidden
@@ -188,16 +196,19 @@ namespace Schoopy {
             this.col5 = ((System.Windows.Controls.DataGridTextColumn)(target));
             return;
             case 11:
-            this.ClickedItemDisplay = ((System.Windows.Controls.TextBox)(target));
-            return;
-            case 12:
             this.button = ((System.Windows.Controls.Button)(target));
             
-            #line 34 "..\..\StudenplanWindow.xaml"
+            #line 33 "..\..\StudenplanWindow.xaml"
             this.button.Click += new System.Windows.RoutedEventHandler(this.button_Click_1);
             
             #line default
             #line hidden
+            return;
+            case 12:
+            this.button1 = ((System.Windows.Controls.Button)(target));
+            return;
+            case 13:
+            this.button2 = ((System.Windows.Controls.Button)(target));
             return;
             }
             this._contentLoaded = true;
