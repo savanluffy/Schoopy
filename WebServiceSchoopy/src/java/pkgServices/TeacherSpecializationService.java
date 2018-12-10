@@ -26,7 +26,7 @@ import pkgData.TeacherSpecialization;
  */
 @Path("teacherspecializations")
 public class TeacherSpecializationService {
-    
+
     Gson gson;
     Database db = null;
 
@@ -39,45 +39,50 @@ public class TeacherSpecializationService {
         }
     }
 
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllTeacherSpecializations() throws Exception {
+        return Response.ok().entity(gson.toJson(db.getAllTeacherSpecializations())).build();
+
+    }
 
     @GET
     @Path("/allSubjects/{teacherUN}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getTeacherSpecializationsByTeacher(@PathParam("teacherUN") String teacherUsername) throws Exception {
-          return Response.ok().entity(gson.toJson(db.getTeacherSpecializationsByTeacher(teacherUsername))).build();
+        return Response.ok().entity(gson.toJson(db.getTeacherSpecializationsByTeacher(teacherUsername))).build();
 
     }
+
     @GET
     @Path("/allTeachers/{subjectId}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getTeacherSpecializationsBySubject(@PathParam("subjectId") int subjectId) throws Exception {
-          return Response.ok().entity(gson.toJson(db.getTeacherSpecializationsBySubject(subjectId))).build();
+        return Response.ok().entity(gson.toJson(db.getTeacherSpecializationsBySubject(subjectId))).build();
 
     }
 
     @POST
+    @Path("/add")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addNewTeacherSpecialization(String newTeacherSpecialization) throws Exception {
 
         Response r = Response.status(Response.Status.CREATED).entity("TeacherSpecialization created").build();
         try {
-
             db.addTeacherSpecialization(gson.fromJson(newTeacherSpecialization, TeacherSpecialization.class));
         } catch (Exception ex) {
             r = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
         return r;
     }
-           
-    
-    
+
     @DELETE
     @Path("/{teacherUN}/{subjectId}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response deleteSubject(@PathParam("teacherUN") String teacherUN,@PathParam("subjectId") int subjectId) throws Exception {
+    public Response deleteTeacherSpecialization(@PathParam("teacherUN") String teacherUN, @PathParam("subjectId") int subjectId) throws Exception {
         Response isDeleted = Response.ok().build();
         try {
-            db.deleteTeacherSpecialization(teacherUN,subjectId);
+            db.deleteTeacherSpecialization(teacherUN, subjectId);
         } catch (Exception ex) {
             isDeleted = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }

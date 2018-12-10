@@ -46,6 +46,13 @@ public class SubjectService {
     }
 
     @GET
+    @Path("/filter/{filterValue}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response filterSubjects(@PathParam("filterValue") String filterValue) throws Exception {
+        return Response.ok().entity(gson.toJson(db.filterSubjects(filterValue))).build();
+    }
+
+    @GET
     @Path("/{subjectId}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getSubject(@PathParam("subjectId") int subjectId) throws Exception {
@@ -73,15 +80,16 @@ public class SubjectService {
         }
         return r;
     }
-    
+
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     public Response updateSubject(String subjectToUpdate) throws Exception {
         Response r = Response.ok().entity("subject updated").build();
         try {
             boolean isUpdated = db.updateSubject(gson.fromJson(subjectToUpdate, Subject.class));
-            if(isUpdated==false)
+            if (isUpdated == false) {
                 throw new Exception("subject not updated");
+            }
         } catch (Exception ex) {
             r = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }

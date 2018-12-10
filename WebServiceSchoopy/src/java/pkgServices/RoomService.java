@@ -43,7 +43,6 @@ public class RoomService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getRooms() throws Exception {
-       
         return Response.ok().entity(gson.toJson(db.getAllRooms())).build();
     }
 
@@ -54,7 +53,7 @@ public class RoomService {
         Room room = db.getRoom(roomNr);
         Response r = null;
         if (room == null) {
-            
+
             r = Response.status(Response.Status.NOT_FOUND).entity("room not found").build();
         } else {
             r = Response.ok().entity(gson.toJson(room)).build();

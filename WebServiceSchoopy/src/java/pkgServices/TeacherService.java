@@ -7,8 +7,10 @@ package pkgServices;
 
 import com.google.gson.Gson;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -24,7 +26,7 @@ import pkgData.Teacher;
  */
 @Path("teachers")
 public class TeacherService {
-    
+
     Gson gson;
     Database db = null;
 
@@ -40,7 +42,16 @@ public class TeacherService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getTeachers() throws Exception {
+
         return Response.ok().entity(gson.toJson(db.getAllTeachers())).build();
+    }
+
+    @GET
+    @Path("/filter/{filterValue}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response filterTeachers(@PathParam("filterValue") String filterValue) throws Exception {
+
+        return Response.ok().entity(gson.toJson(db.filterTeachers(filterValue))).build();
     }
 
     @GET
@@ -56,6 +67,20 @@ public class TeacherService {
         }
 
         return r;
+    }
+
+    @DELETE
+    @Path("/{username}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response deleteTeacher(@PathParam("username") String username) throws Exception {
+        Response isDeleted = Response.ok().build();
+        try {
+            db.deleteTeacher(username);
+        } catch (Exception ex) {
+            isDeleted = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+
+        return isDeleted;
     }
 
     @POST
@@ -92,13 +117,14 @@ public class TeacherService {
         return r;
     }
 
-    @POST
+    //only for admin.
+    @PUT
     @Path("/update")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response update(String updateTeacher) {
-        Response r = Response.ok().entity("teacher updated").build();
+        Response r = Response.status(Response.Status.OK).entity("teacher updated").build();
         try {
-            boolean isUpdated = db.updateTeacher(gson.fromJson(updateTeacher,Teacher.class));
+            boolean isUpdated = db.updateTeacher(gson.fromJson(updateTeacher, Teacher.class));
             if (!isUpdated) {
                 throw new Exception("teacher not updated");
             }

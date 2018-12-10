@@ -225,6 +225,27 @@ public class Database {
         return collTeachers;
     }
 
+    public Collection<Teacher> filterTeachers(String filterVal) throws Exception {
+        ArrayList<Teacher> collTeachers = new ArrayList<>();
+
+        conn = createConnection();
+        String select = "SELECT * FROM Teacher WHERE upper(username) LIKE upper(?) or upper(firstName) LIKE upper(?)"
+                + " or upper(lastName) LIKE upper(?) or upper(schoolemail) LIKE upper(?)";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, "%" + filterVal + "%");
+        stmt.setString(2, "%" + filterVal + "%");
+        stmt.setString(3, "%" + filterVal + "%");
+        stmt.setString(4, "%" + filterVal + "%");
+
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collTeachers.add(getTeacherValues(rs));
+        }
+        conn.close();
+
+        return collTeachers;
+    }
+
     public Teacher getTeacher(String username) throws Exception {
         conn = createConnection();
         String select = "SELECT * FROM Teacher WHERE username=?";
@@ -272,14 +293,13 @@ public class Database {
     public boolean updateTeacher(Teacher t) throws Exception {
         boolean res = false;
         conn = createConnection();
-        String select = "UPDATE Teacher SET firstName=?,lastName=?,schoolemail=?, password=? where username=?";
+        String select = "UPDATE Teacher SET firstName=?,lastName=?,schoolemail=? where username=?";
 
         PreparedStatement stmt = conn.prepareStatement(select);
         stmt.setString(1, t.getFirstName());
         stmt.setString(2, t.getLastName());
         stmt.setString(3, t.getSchoolemail());
-        stmt.setString(4, Encrypth.hashPW(t.getPassword()));
-        stmt.setString(5, t.getUsername());
+        stmt.setString(4, t.getUsername());
         int numOfUpdatedRows = stmt.executeUpdate();
         if (numOfUpdatedRows == 1) {
             res = true;
@@ -287,6 +307,19 @@ public class Database {
         conn.close();
 
         return res;
+    }
+
+    public void deleteTeacher(String username) throws Exception {
+
+        deletePublicFileByTeacher(username);
+        deletePrivateFileByTeacher(username);
+        deleteTeacherSpecializationsByTeacher(username);
+        conn = createConnection();
+        String select = "DELETE FROM Teacher WHERE username=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, username);
+        stmt.executeQuery();
+        conn.close();
     }
 
     private Teacher getTeacherValues(ResultSet rs) throws Exception {
@@ -378,6 +411,16 @@ public class Database {
         conn.close();
     }
 
+    //helper
+    private void deletePublicFileByTeacher(String username) throws Exception {
+        conn = createConnection();
+        String select = "DELETE FROM PublicFile WHERE publisherTeacher=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, username);
+        stmt.executeQuery();
+        conn.close();
+    }
+
     public Collection<PrivateFile> getPrivateFiles(String folderRoomNr) throws Exception {
         ArrayList<PrivateFile> collPrivateFiles = new ArrayList<>();
 
@@ -430,6 +473,15 @@ public class Database {
         conn.close();
     }
 
+    private void deletePrivateFileByTeacher(String username) throws Exception {
+        conn = createConnection();
+        String select = "DELETE FROM PrivateFile WHERE publisherTeacher=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, username);
+        stmt.executeQuery();
+        conn.close();
+    }
+
     public Collection<Subject> getAllSubjects() throws Exception {
         ArrayList<Subject> collSubjects = new ArrayList<>();
 
@@ -444,6 +496,22 @@ public class Database {
         return collSubjects;
     }
 
+        public Collection<Subject> filterSubjects(String filterValue) throws Exception {
+        ArrayList<Subject> collSubjects = new ArrayList<>();
+
+        conn = createConnection();
+        String select = "SELECT * FROM Subject WHERE upper(subjectName) LIKE upper(?) or upper(subjectShortcut) LIKE upper(?) ";
+               
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, "%" + filterValue + "%");
+        stmt.setString(2, "%" + filterValue + "%");
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collSubjects.add(getSubjectValues(rs));
+        }
+        conn.close();
+        return collSubjects;
+    }
     public Subject getSubject(int subjectId) throws Exception {
         conn = createConnection();
         String select = "SELECT * FROM Subject WHERE subjectId=?";
@@ -500,6 +568,20 @@ public class Database {
     private Subject getSubjectValues(ResultSet rs) throws Exception {
         return (new Subject(rs.getInt("subjectId"), rs.getString("subjectName"), rs.getString("subjectShortcut")));
 
+    }
+
+    public Collection<TeacherSpecialization> getAllTeacherSpecializations() throws Exception {
+        ArrayList<TeacherSpecialization> collTeacherSpecialization = new ArrayList<>();
+
+        conn = createConnection();
+        String select = "SELECT * FROM TeacherSpecialization";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collTeacherSpecialization.add(getTeacherSpecializationValues(rs));
+        }
+        conn.close();
+        return collTeacherSpecialization;
     }
 
     public Collection<TeacherSpecialization> getTeacherSpecializationsByTeacher(String teacherUsername) throws Exception {
@@ -571,11 +653,31 @@ public class Database {
     }
 
     //helper
+    private void deleteTeacherSpecializationsByTeacher(String username) throws Exception {
+        deleteLessonsByTeacher(username);
+        conn = createConnection();
+        String select = "DELETE FROM TeacherSpecialization WHERE teacherUN=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, username);
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    //helper
     private void deleteLessonsBySubject(int subjectId) throws Exception {
         conn = createConnection();
         String select = "DELETE FROM Lesson WHERE teachingSubject=?";
         PreparedStatement stmt = conn.prepareStatement(select);
         stmt.setInt(1, subjectId);
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    private void deleteLessonsByTeacher(String username) throws Exception {
+        conn = createConnection();
+        String select = "DELETE FROM Lesson WHERE teacherUN=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, username);
         stmt.executeQuery();
         conn.close();
     }
@@ -607,9 +709,26 @@ public class Database {
     }
 
     private Lesson getLessonValues(ResultSet rs) throws Exception {
+
         Lesson l = new Lesson(getRoom(rs.getString("schoolRoom")), getRoom(rs.getString("teachingRoom")),
-                getTeacher(rs.getString("teacherUN")), getSubject(rs.getInt("teachingSubject")), WeekDay.valueOf(rs.getString("weekDay")), rs.getInt("schoolHour"));
+                getTeacherSpecializations(rs.getString("teacherUN"), rs.getInt("teachingSubject")), WeekDay.valueOf(rs.getString("weekDay")), rs.getInt("schoolHour"));
         return l;
+    }
+
+    private TeacherSpecialization getTeacherSpecializations(String teacherUN, int teachingSubject) throws Exception {
+        TeacherSpecialization teacherSpecialization = null;
+
+        conn = createConnection();
+        String select = "SELECT * FROM TeacherSpecialization WHERE teacherUN=? AND subjectId=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, teacherUN);
+        stmt.setInt(2, teachingSubject);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            teacherSpecialization = getTeacherSpecializationValues(rs);
+        }
+        conn.close();
+        return teacherSpecialization;
     }
 
     public Collection<Lesson> getAllLessonsByTeacher(String teacherUN) throws Exception {
@@ -633,8 +752,8 @@ public class Database {
         PreparedStatement stmt = conn.prepareStatement(select);
         stmt.setString(1, newLesson.getSchoolRoom().getRoomNr());
         stmt.setString(2, newLesson.getTeachingRoom().getRoomNr());
-        stmt.setString(3, newLesson.getTeacher().getUsername());
-        stmt.setInt(4, newLesson.getTeachingSubject().getSubjectId());
+        stmt.setString(3, newLesson.getTeachingInfo().getTeacher().getUsername());
+        stmt.setInt(4, newLesson.getTeachingInfo().getSubject().getSubjectId());
         stmt.setString(5, newLesson.getWeekDay().name());
         stmt.setInt(6, newLesson.getSchoolHour());
         stmt.executeQuery();
@@ -651,8 +770,8 @@ public class Database {
                 + " weekDay=?";
         PreparedStatement stmt = conn.prepareStatement(select);
         stmt.setString(1, updateLesson.getTeachingRoom().getRoomNr());
-        stmt.setInt(2, updateLesson.getTeachingSubject().getSubjectId());
-        stmt.setString(3, updateLesson.getTeacher().getUsername());
+        stmt.setInt(2, updateLesson.getTeachingInfo().getSubject().getSubjectId());
+        stmt.setString(3, updateLesson.getTeachingInfo().getTeacher().getUsername());
         stmt.setString(4, updateLesson.getSchoolRoom().getRoomNr());
         stmt.setInt(5, updateLesson.getSchoolHour());
         stmt.setString(6, updateLesson.getWeekDay().name());
@@ -701,8 +820,10 @@ public class Database {
         conn.close();
     }
 
-    private SchoopyAdmin getSchoopyAdminValues(ResultSet rs) throws Exception{
-        return new SchoopyAdmin(rs.getString("username"),rs.getString("password"));
+    private SchoopyAdmin getSchoopyAdminValues(ResultSet rs) throws Exception {
+        return new SchoopyAdmin(rs.getString("username"), rs.getString("password"));
     }
+
+
 
 }

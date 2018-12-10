@@ -14,19 +14,27 @@ import java.util.Objects;
 public class Lesson {
     private Room schoolRoom;
     private Room teachingRoom;
-    private Teacher teacher;
-    private Subject teachingSubject;
+    private TeacherSpecialization teachingInfo;
     private WeekDay weekDay;
     private int schoolHour;
 
-    public Lesson(Room schoolRoom, Room teachingRoom, Teacher teacher, Subject teachingSubject, WeekDay weekDay, int schoolHour) {
+    public Lesson(Room schoolRoom, Room teachingRoom, TeacherSpecialization teachingInfo, WeekDay weekDay, int schoolHour) {
         this.schoolRoom = schoolRoom;
         this.teachingRoom = teachingRoom;
-        this.teacher = teacher;
-        this.teachingSubject = teachingSubject;
+        this.teachingInfo = teachingInfo;
         this.weekDay = weekDay;
         this.schoolHour = schoolHour;
     }
+
+    public TeacherSpecialization getTeachingInfo() {
+        return teachingInfo;
+    }
+
+    public void setTeachingInfo(TeacherSpecialization teachingInfo) {
+        this.teachingInfo = teachingInfo;
+    }
+
+
 
     public Room getSchoolRoom() {
         return schoolRoom;
@@ -44,21 +52,7 @@ public class Lesson {
         this.teachingRoom = teachingRoom;
     }
 
-    public Teacher getTeacher() {
-        return teacher;
-    }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
-
-    public Subject getTeachingSubject() {
-        return teachingSubject;
-    }
-
-    public void setTeachingSubject(Subject teachingSubject) {
-        this.teachingSubject = teachingSubject;
-    }
 
     public WeekDay getWeekDay() {
         return weekDay;
@@ -113,8 +107,10 @@ public class Lesson {
 
     @Override
     public String toString() {
-        return "Lesson{" + "schoolRoom=" + schoolRoom + ", teachingRoom=" + teachingRoom + ", teacher=" + teacher + ", teachingSubject=" + teachingSubject + ", weekDay=" + weekDay + ", schoolHour=" + schoolHour + '}';
+        return "Lesson{" + "schoolRoom=" + schoolRoom + ", teachingRoom=" + teachingRoom + ", teachingInfo=" + teachingInfo + ", weekDay=" + weekDay + ", schoolHour=" + schoolHour + '}';
     }
+
+    
     
     
     
