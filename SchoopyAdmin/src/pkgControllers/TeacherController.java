@@ -74,13 +74,19 @@ public class TeacherController implements Initializable {
             tc_lastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
             tc_username.setCellValueFactory(new PropertyValueFactory<>("username"));
             tc_schoolemail.setCellValueFactory(new PropertyValueFactory<>("schoolemail"));
-
+            tableTeachers.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                if (newSelection != null) {
+                    this.btnUpdateTeacher.setDisable(false);
+                    this.btnDeleteTeacher.setDisable(false);
+                } else {
+                    this.btnUpdateTeacher.setDisable(true);
+                    this.btnDeleteTeacher.setDisable(true);
+                }
+            });
             this.tableTeachers.getItems().setAll(db.getAllTeachers());
         } catch (Exception ex) {
             showResultDialog("An error has occured:", ex.getMessage());
-
         }
-
     }
 
     @FXML
@@ -184,10 +190,6 @@ public class TeacherController implements Initializable {
 
     private void updateTeacher() throws Exception {
         Teacher t = tableTeachers.getSelectionModel().getSelectedItem();
-        if (t == null) {
-            throw new Exception("please select teacher from table");
-        }
-
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Update Teacher"));
         content.setBody(new Text("enter data:"));
@@ -214,7 +216,7 @@ public class TeacherController implements Initializable {
                     throw new Exception("email pattern wrong!");
                 }
 
-                Teacher updateTeacher = new Teacher(fnT, lnT, semailT, unT,t.getPassword());
+                Teacher updateTeacher = new Teacher(fnT, lnT, semailT, unT, t.getPassword());
                 db.updateTeacher(updateTeacher);
                 tableTeachers.getItems().setAll(db.getAllTeachers());
                 dialog.close();
@@ -233,13 +235,10 @@ public class TeacherController implements Initializable {
 
     private void deleteTeacher() throws Exception {
         Teacher t = tableTeachers.getSelectionModel().getSelectedItem();
-        if (t == null) {
-            throw new Exception("please select teacher from table");
-        }
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Delete " + t.getLastName()+"?"));
-       
+        content.setHeading(new Text("Delete " + t.getLastName() + "?"));
+
         JFXDialog dialog = new JFXDialog(mySP, content, JFXDialog.DialogTransition.CENTER);
         dialog.setMinHeight(mySP.getPrefHeight());
         dialog.setMinWidth(mySP.getPrefWidth());

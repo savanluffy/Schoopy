@@ -81,7 +81,7 @@ public class Database {
     }
 
     public void deleteTeacher(String username) throws Exception {
-        WebResource resource = client.resource(uri + "teachers/"+username);
+        WebResource resource = client.resource(uri + "teachers/" + username);
         ClientResponse response = resource.type(MediaType.APPLICATION_JSON).delete(ClientResponse.class);
 
         if (response.getStatus() != 200) {
@@ -101,12 +101,109 @@ public class Database {
         }.getType());
     }
 
+    public ArrayList<Subject> getAllSubjects() throws Exception {
+        ClientResponse response = client.resource(uri + "subjects").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception("Failed to load subjects!");
+        }
+
+        String subjectsAsString = response.getEntity(String.class);
+        return gson.fromJson(subjectsAsString, new TypeToken<ArrayList<Subject>>() {
+        }.getType());
+    }
+
+    public ArrayList<Subject> filterSubjects(String filterVal) throws Exception {
+        ClientResponse response = client.resource(uri + "subjects/filter/" + filterVal).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception("Failed to filter subjects!");
+        }
+
+        String subjectsAsString = response.getEntity(String.class);
+        return gson.fromJson(subjectsAsString, new TypeToken<ArrayList<Subject>>() {
+        }.getType());
+    }
+
+    public void addSubject(Subject newSubject) throws Exception {
+        WebResource resource = client.resource(uri + "subjects/add");
+
+        ClientResponse response = resource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, gson.toJson(newSubject, Subject.class));
+        if (response.getStatus() != 201) { //201=created     
+            throw new Exception("add subject failed:" + response.getEntity(String.class));
+        }
+    }
+
+    public void updateSubject(Subject updateSubject) throws Exception {
+        WebResource resource = client.resource(uri + "subjects");
+        ClientResponse response = resource.type(MediaType.APPLICATION_JSON).put(ClientResponse.class, gson.toJson(updateSubject, Subject.class));
+
+        if (response.getStatus() != 200) {
+            throw new Exception(response.getEntity(String.class));
+        }
+    }
+
+    public void deleteSubject(Subject selected) throws Exception {
+        WebResource resource = client.resource(uri + "subjects/" + selected.getSubjectId());
+        ClientResponse response = resource.type(MediaType.APPLICATION_JSON).delete(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception(response.getEntity(String.class));
+        }
+    }
+
+    public ArrayList<TeacherSpecialization> getAllTS() throws Exception {
+        ClientResponse response = client.resource(uri + "teacherspecializations").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception("Failed to load teacher specialization!");
+        }
+
+        String teacherSpecializationsAsString = response.getEntity(String.class);
+        return gson.fromJson(teacherSpecializationsAsString, new TypeToken<ArrayList<TeacherSpecialization>>() {
+        }.getType());
+    }
+
+    public ArrayList<TeacherSpecialization> getTSBySubject(Subject s) throws Exception {
+        ClientResponse response = client.resource(uri + "teacherspecializations/allTeachers/"+s.getSubjectId()).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception("Failed to load teacher specialization by subject!");
+        }
+
+        String teacherSpecializationsAsString = response.getEntity(String.class);
+        return gson.fromJson(teacherSpecializationsAsString, new TypeToken<ArrayList<TeacherSpecialization>>() {
+        }.getType());
+    }
+
+    public ArrayList<TeacherSpecialization> getTSByTeacher(Teacher t) throws Exception {
+        ClientResponse response = client.resource(uri + "teacherspecializations/allSubjects/"+t.getUsername()).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception("Failed to load teacher specialization by teacher!");
+        }
+
+        String teacherSpecializationsAsString = response.getEntity(String.class);
+        return gson.fromJson(teacherSpecializationsAsString, new TypeToken<ArrayList<TeacherSpecialization>>() {
+        }.getType());
+    }
+
     public void addTeacherSpecialization(TeacherSpecialization ts) throws Exception {
         WebResource resource = client.resource(uri + "teacherspecializations/add");
 
         ClientResponse response = resource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, gson.toJson(ts, TeacherSpecialization.class));
         if (response.getStatus() != 201) {
             throw new Exception("add teacherspecialization failed:" + response.getEntity(String.class));
+        }
+    }
+
+    public void deleteTeacherSpecialization(TeacherSpecialization ts) throws Exception {
+        WebResource resource = client.resource(uri + "teacherspecializations/" + ts.getTeacher().getUsername() + "/" + ts.getSubject().getSubjectId());
+
+        ClientResponse response = resource.type(MediaType.APPLICATION_JSON).delete(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception(response.getEntity(String.class));
         }
     }
 

@@ -76,6 +76,7 @@ public class MainMenuController implements Initializable {
     
         @FXML
     void onButtonClick(ActionEvent event)  {
+        
         JFXButton clickedBttn = (JFXButton) event.getSource();
         if (!clickedBttn.equals(lastPressedBttn)) {
             lastPressedBttn.setOpacity(noClick_Opacity);

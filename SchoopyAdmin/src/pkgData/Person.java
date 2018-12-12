@@ -106,7 +106,7 @@ public abstract class Person {
 
     @Override
     public String toString() {
-        return "Person{" + "firstName=" + firstName + ", lastName=" + lastName + ", schoolemail=" + schoolemail + ", username=" + username + ", password=" + password + '}';
+        return firstName + " " + lastName + ", schoolemail=" + schoolemail + ", username=" + username;
     }
     
     

@@ -21,6 +21,12 @@ public class Subject {
         this.subjectShortcut = subjectShortcut;
     }
 
+    public Subject(String subjectName, String subjectShortcut) {
+        this.subjectName = subjectName;
+        this.subjectShortcut = subjectShortcut;
+    }
+
+    
     public int getSubjectId() {
         return subjectId;
     }
@@ -70,4 +76,12 @@ public class Subject {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return subjectName + ", " + subjectShortcut;
+    }
+
+    
+    
+    
 }
