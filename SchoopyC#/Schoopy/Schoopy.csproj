@@ -35,8 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,12 +63,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database.cs" />
     <Compile Include="Dokument.xaml.cs">
       <DependentUpon>Dokument.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Data\Lesson.cs" />
     <Compile Include="MainUserControll.xaml.cs">
       <DependentUpon>MainUserControll.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Data\Person.cs" />
+    <Compile Include="Data\Room.cs" />
     <Compile Include="Schueler.xaml.cs">
       <DependentUpon>Schueler.xaml</DependentUpon>
     </Compile>
@@ -69,6 +81,9 @@
     </Compile>
     <Compile Include="Stunde.cs" />
     <Compile Include="Stundenplan.cs" />
+    <Compile Include="Data\Subject.cs" />
+    <Compile Include="Data\Teacher.cs" />
+    <Compile Include="Data\TeacherSpecialization.cs" />
     <Compile Include="UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
@@ -130,6 +145,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

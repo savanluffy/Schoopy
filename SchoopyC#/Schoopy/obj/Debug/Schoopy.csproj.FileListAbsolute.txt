@@ -42,3 +42,11 @@ C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schoopy.Prop
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schoopy.csproj.GenerateResource.Cache
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schoopy.exe
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schoopy.pdb
+C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Dokument.g.cs
+C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schueler.g.cs
+C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Dokument.baml
+C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schueler.baml

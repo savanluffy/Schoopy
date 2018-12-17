@@ -26,7 +26,9 @@ namespace Schoopy
         {
             InitializeComponent();
             initStdplan();
-           
+            Database d = new Database();
+            d.start();
+
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
