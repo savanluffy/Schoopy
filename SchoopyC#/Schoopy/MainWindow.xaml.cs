@@ -28,6 +28,7 @@ namespace Schoopy
         private void buttonLogin_Click(object sender, RoutedEventArgs e)
         {
             StudenplanWindow win2 = new StudenplanWindow();
+           
             win2.Show();
             this.Close();
         }

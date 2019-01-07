@@ -26,8 +26,10 @@ namespace Schoopy
         {
             InitializeComponent();
             initStdplan();
-            Database d = new Database();
-            d.start();
+            // Database d = new Database();
+            // d.start();
+            Connect c = new Connect();
+            Console.WriteLine(c.Get(@"http://localhost:8080/WebServiceSchoopy/webresources/subjects"));
 
         }
 
