@@ -39,7 +39,7 @@ public class TeacherSpecialization {
 
     @Override
     public String toString() {
-        return "TeacherSpecialization{" + "teacher=" + teacher + ", subject=" + subject + '}';
+        return teacher.getUsername() + " , " + subject.getSubjectName();
     }
 
     @Override

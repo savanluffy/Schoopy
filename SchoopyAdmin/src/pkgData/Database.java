@@ -11,6 +11,9 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -165,7 +168,7 @@ public class Database {
     }
 
     public ArrayList<TeacherSpecialization> getTSBySubject(Subject s) throws Exception {
-        ClientResponse response = client.resource(uri + "teacherspecializations/allTeachers/"+s.getSubjectId()).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        ClientResponse response = client.resource(uri + "teacherspecializations/allTeachers/" + s.getSubjectId()).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 
         if (response.getStatus() != 200) {
             throw new Exception("Failed to load teacher specialization by subject!");
@@ -177,7 +180,7 @@ public class Database {
     }
 
     public ArrayList<TeacherSpecialization> getTSByTeacher(Teacher t) throws Exception {
-        ClientResponse response = client.resource(uri + "teacherspecializations/allSubjects/"+t.getUsername()).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        ClientResponse response = client.resource(uri + "teacherspecializations/allSubjects/" + t.getUsername()).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 
         if (response.getStatus() != 200) {
             throw new Exception("Failed to load teacher specialization by teacher!");
@@ -217,6 +220,83 @@ public class Database {
         String roomsAsString = response.getEntity(String.class);
         return gson.fromJson(roomsAsString, new TypeToken<ArrayList<Room>>() {
         }.getType());
+    }
+
+    public ArrayList<Room> getAllSchoolRooms() throws Exception {
+        ClientResponse response = client.resource(uri + "rooms/schoolRooms").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception("Failed to load school rooms!");
+        }
+
+        String roomsAsString = response.getEntity(String.class);
+        return gson.fromJson(roomsAsString, new TypeToken<ArrayList<Room>>() {
+        }.getType());
+    }
+
+    public ArrayList<Room> getAllTeachingRooms(String roomNr) throws Exception {
+        ClientResponse response = client.resource(uri + "rooms/teachingRooms/"+roomNr).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception("Failed to load teachingRooms rooms!");
+        }
+
+        String roomsAsString = response.getEntity(String.class);
+        return gson.fromJson(roomsAsString, new TypeToken<ArrayList<Room>>() {
+        }.getType());
+    }
+
+    public ArrayList<Lesson> getAllLessonsByRoomNr(String roomNr) throws Exception {
+        ClientResponse response = client.resource(uri + "lessons/" + roomNr).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception("No lessons found!");
+        }
+
+        String roomsAsString = response.getEntity(String.class);
+        return gson.fromJson(roomsAsString, new TypeToken<ArrayList<Lesson>>() {
+        }.getType());
+    }
+
+    public void addLesson(Lesson l) throws Exception {
+        WebResource resource = client.resource(uri + "lessons/add");
+
+        ClientResponse response = resource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, gson.toJson(l, Lesson.class));
+        if (response.getStatus() != 201) { //201=created     
+            throw new Exception("add lesson failed:" + response.getEntity(String.class));
+        }
+    }
+
+    public void deleteLesson(Lesson curLesson) throws Exception {
+        WebResource resource = client.resource(uri + "lessons/" + curLesson.getSchoolRoom().getRoomNr() + "/" + curLesson.getWeekDay().toString() + "/" + curLesson.getSchoolHour());
+        ClientResponse response = resource.type(MediaType.APPLICATION_JSON).delete(ClientResponse.class);
+
+        if (response.getStatus() != 200) {
+            throw new Exception(response.getEntity(String.class));
+        }
+    }
+
+    public void updateLesson(Lesson lesson) throws Exception {
+        WebResource resource = client.resource(uri + "lessons/update");
+        ClientResponse response = resource.type(MediaType.APPLICATION_JSON).put(ClientResponse.class, gson.toJson(lesson, Lesson.class));
+
+        if (response.getStatus() != 200) {
+            throw new Exception(response.getEntity(String.class));
+        }
+    }
+
+    public ObservableList<ClassHour> convertToClassHour(List<Lesson> lessons) {
+        ObservableList<ClassHour> classHours = FXCollections.observableArrayList();
+
+        for (int i = 0; i < 16; i++) {
+            classHours.add(new ClassHour(i));
+        }
+        // fill classHours with lessons
+        for (Lesson lesson : lessons) {
+            classHours.get(lesson.getSchoolHour() - 1).getDayLessons()[lesson.getWeekDay().ordinal()] = lesson;
+        }
+
+        return classHours;
     }
 
 }

@@ -62,7 +62,7 @@ public class Room {
 
     @Override
     public String toString() {
-        return "Room{" + "roomNr=" + roomNr + ", roomDescription=" + roomDescription + ", department=" + department + ", roomCoordinates=" + roomCoordinates + '}';
+        return roomDescription;
     }
     
     
