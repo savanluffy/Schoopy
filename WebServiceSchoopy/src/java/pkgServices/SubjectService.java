@@ -68,6 +68,7 @@ public class SubjectService {
     }
 
     @POST
+    @Path("/add")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addNewSubject(String newSubject) throws Exception {
 

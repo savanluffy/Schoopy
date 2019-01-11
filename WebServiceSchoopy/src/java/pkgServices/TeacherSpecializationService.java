@@ -54,6 +54,8 @@ public class TeacherSpecializationService {
 
     }
 
+
+
     @GET
     @Path("/allTeachers/{subjectId}")
     @Produces({MediaType.APPLICATION_JSON})

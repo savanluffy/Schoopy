@@ -6,6 +6,7 @@
 package pkgServices;
 
 import com.google.gson.Gson;
+import java.util.Collection;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.Response;
 import pkgData.Database;
 import pkgData.Lesson;
 import pkgData.Room;
+import pkgData.SchoopyAdmin;
 import pkgData.Subject;
 
 /**
@@ -27,7 +29,7 @@ import pkgData.Subject;
  */
 @Path("lessons")
 public class LessonService {
-    
+
     Gson gson;
     Database db = null;
 
@@ -44,17 +46,30 @@ public class LessonService {
     @Path("/{roomNr}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getLessonsBySchoolRoom(@PathParam("roomNr") String roomNr) throws Exception {
-        return Response.ok().entity(gson.toJson(db.getAllLessonsBySchoolRoom(roomNr))).build();
+
+        Response r = null;
+        try {
+            Room room = db.getRoom(roomNr);
+            if (room == null) {
+                throw new Exception("no lessons for this room found");
+            }
+            r = Response.ok().entity(gson.toJson(db.getAllLessonsBySchoolRoom(roomNr))).build();
+        } catch (Exception ex) {
+            r = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        }
+        return r;
+
     }
 
     @GET
     @Path("/teachers/{teacherUN}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getLessonsByTeacher(@PathParam("teacherUN") String teacherUN) throws Exception {
-       return Response.ok().entity(gson.toJson(db.getAllLessonsByTeacher(teacherUN))).build();
+        return Response.ok().entity(gson.toJson(db.getAllLessonsByTeacher(teacherUN))).build();
     }
 
     @POST
+    @Path("/add")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addNewLesson(String newLesson) throws Exception {
 
@@ -67,29 +82,30 @@ public class LessonService {
         }
         return r;
     }
-   
-    
+
     @PUT
+    @Path("/update")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response updateLesson(String lessonToUpdate) throws Exception {
         Response r = Response.ok().build();
         try {
             boolean res = db.updateLesson(gson.fromJson(lessonToUpdate, Lesson.class));
-            if(res==false)
+            if (res == false) {
                 throw new Exception("lesson not updated");
+            }
         } catch (Exception ex) {
             r = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }
         return r;
     }
-    
+
     @DELETE
     @Path("/{schoolRoom}/{weekDay}/{schoolHour}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response deleteLesson(@PathParam("schoolRoom") String schoolRoom,@PathParam("weekDay") String weekDay,@PathParam("schoolHour") int schoolHour) throws Exception {
+    public Response deleteLesson(@PathParam("schoolRoom") String schoolRoom, @PathParam("weekDay") String weekDay, @PathParam("schoolHour") int schoolHour) throws Exception {
         Response isDeleted = Response.ok().build();
         try {
-            db.deleteLesson(schoolRoom,weekDay,schoolHour);
+            db.deleteLesson(schoolRoom, weekDay, schoolHour);
         } catch (Exception ex) {
             isDeleted = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
         }

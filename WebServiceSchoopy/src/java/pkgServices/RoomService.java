@@ -45,6 +45,20 @@ public class RoomService {
     public Response getRooms() throws Exception {
         return Response.ok().entity(gson.toJson(db.getAllRooms())).build();
     }
+    
+    @GET
+    @Path("/schoolRooms")
+    @Produces({MediaType.APPLICATION_JSON}) 
+    public Response getSchoolRooms() throws Exception {
+        return Response.ok().entity(gson.toJson(db.getAllSchoolRooms())).build(); //sind nur klassenräume (5AHIFS,2AHBT,etc...)
+    }
+    
+    @GET
+    @Path("/teachingRooms/{roomNr}")
+    @Produces({MediaType.APPLICATION_JSON}) 
+    public Response getTeachingRooms(@PathParam("roomNr") String roomNr) throws Exception {
+        return Response.ok().entity(gson.toJson(db.getAllTeachingRooms(roomNr))).build(); //sind nur räume wo man unterricht haben kann
+    }
 
     @GET
     @Path("/{roomNr}")
