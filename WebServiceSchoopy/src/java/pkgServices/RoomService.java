@@ -77,6 +77,7 @@ public class RoomService {
     }
 
     @POST
+    @Path("/add")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response addNewRoom(String newRoom) throws Exception {
 
@@ -91,6 +92,7 @@ public class RoomService {
     }
 
     @PUT
+    @Path("/update")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response updateRoom(String roomToUpdate) throws Exception {
         Response r = Response.ok().build();

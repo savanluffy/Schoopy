@@ -151,6 +151,33 @@ public class Database {
         return collRooms;
     }
 
+    public Collection<Room> getAllSchoolRooms() throws Exception {
+        ArrayList<Room> collRooms = new ArrayList<>();
+
+        conn = createConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Room WHERE department != 'NONE' ORDER BY roomNr");
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collRooms.add(getRoomValues(rs));
+        }
+        conn.close();
+        return collRooms;
+    }
+
+    public Collection<Room> getAllTeachingRooms(String roomNr) throws Exception {
+        ArrayList<Room> collRooms = new ArrayList<>();
+
+        conn = createConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Room WHERE department = 'NONE' OR roomNr = ?  ORDER BY roomNr");
+        stmt.setString(1, roomNr);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collRooms.add(getRoomValues(rs));
+        }
+        conn.close();
+        return collRooms;
+    }
+
     public Room getRoom(String roomNr) throws Exception {
         conn = createConnection();
         String select = "SELECT * FROM Room WHERE roomNr=?";
@@ -187,6 +214,15 @@ public class Database {
     }
 
     public void updateRoom(Room roomToUpdate) throws Exception {
+        if (roomToUpdate.getDepartment().equals(Department.NONE)) {
+            deleteLessonsBySchoolRoom(roomToUpdate);
+        }else{
+            Room r = getRoom(roomToUpdate.getRoomNr());
+            if(r.getDepartment().equals(Department.NONE)){
+                deleteLessonsByTeachingRoom(roomToUpdate);
+            }
+           
+        }
         conn = createConnection();
 
         String select = "UPDATE Room SET roomDescription=?, department=?,roomCoordinates=? WHERE roomNr = ?";
@@ -202,6 +238,7 @@ public class Database {
     }
 
     public void deleteRoom(String roomNr) throws Exception {
+
         conn = createConnection();
 
         String select = "DELETE FROM Room WHERE roomNr=?";
@@ -496,12 +533,12 @@ public class Database {
         return collSubjects;
     }
 
-        public Collection<Subject> filterSubjects(String filterValue) throws Exception {
+    public Collection<Subject> filterSubjects(String filterValue) throws Exception {
         ArrayList<Subject> collSubjects = new ArrayList<>();
 
         conn = createConnection();
         String select = "SELECT * FROM Subject WHERE upper(subjectName) LIKE upper(?) or upper(subjectShortcut) LIKE upper(?) ";
-               
+
         PreparedStatement stmt = conn.prepareStatement(select);
         stmt.setString(1, "%" + filterValue + "%");
         stmt.setString(2, "%" + filterValue + "%");
@@ -512,6 +549,7 @@ public class Database {
         conn.close();
         return collSubjects;
     }
+
     public Subject getSubject(int subjectId) throws Exception {
         conn = createConnection();
         String select = "SELECT * FROM Subject WHERE subjectId=?";
@@ -693,6 +731,24 @@ public class Database {
         conn.close();
     }
 
+    private void deleteLessonsBySchoolRoom(Room room) throws Exception {
+        conn = createConnection();
+        String select = "DELETE FROM Lesson WHERE schoolRoom=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, room.getRoomNr());
+        stmt.executeQuery();
+        conn.close();
+    }
+
+    private void deleteLessonsByTeachingRoom(Room room) throws Exception {  
+        conn = createConnection();
+        String select = "DELETE FROM Lesson WHERE teachingRoom=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, room.getRoomNr());
+        stmt.executeQuery();
+        conn.close();
+    }
+
     public Collection<Lesson> getAllLessonsBySchoolRoom(String roomNr) throws Exception {
         ArrayList<Lesson> collLessons = new ArrayList<>();
 
@@ -823,7 +879,5 @@ public class Database {
     private SchoopyAdmin getSchoopyAdminValues(ResultSet rs) throws Exception {
         return new SchoopyAdmin(rs.getString("username"), rs.getString("password"));
     }
-
-
 
 }
