@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pkgControllers.RoomController">
-    
+<AnchorPane id="AnchorPane" prefHeight="625.0" prefWidth="817.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pkgControllers.RoomController">
+   <children>
+      <JFXComboBox fx:id="cbRooms" layoutX="16.0" layoutY="14.0" onAction="#onSelect" prefHeight="40.0" prefWidth="225.0" />
+      <Canvas fx:id="roomCanvas" height="551.0" layoutX="16.0" layoutY="57.0" width="787.0" />
+      <JFXButton fx:id="btnAddRoom" layoutX="311.0" layoutY="14.0" onAction="#onSelect" prefHeight="40.0" prefWidth="225.0" style="-fx-background-color: LIGHTGREEN;" text=" ">
+         <graphic>
+            <FontAwesomeIconView glyphName="PLUS" size="17.0" wrappingWidth="1.0" />
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="btnEditRoom" disable="true" layoutX="578.0" layoutY="14.0" onAction="#onSelect" prefHeight="40.0" prefWidth="225.0" style="-fx-background-color: LIGHTGREY;" text=" ">
+         <graphic>
+            <FontAwesomeIconView glyphName="EDIT" size="17.0" wrappingWidth="1.0" />
+         </graphic>
+      </JFXButton>
+      <StackPane fx:id="mySP" layoutX="349.0" layoutY="260.0" prefHeight="53.0" prefWidth="99.0" />
+   </children>
 </AnchorPane>

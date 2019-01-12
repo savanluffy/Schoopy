@@ -235,7 +235,7 @@ public class Database {
     }
 
     public ArrayList<Room> getAllTeachingRooms(String roomNr) throws Exception {
-        ClientResponse response = client.resource(uri + "rooms/teachingRooms/"+roomNr).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        ClientResponse response = client.resource(uri + "rooms/teachingRooms/" + roomNr).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 
         if (response.getStatus() != 200) {
             throw new Exception("Failed to load teachingRooms rooms!");
@@ -244,6 +244,24 @@ public class Database {
         String roomsAsString = response.getEntity(String.class);
         return gson.fromJson(roomsAsString, new TypeToken<ArrayList<Room>>() {
         }.getType());
+    }
+
+    public void addRoom(Room r) throws Exception {
+        WebResource resource = client.resource(uri + "rooms/add");
+
+        ClientResponse response = resource.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, gson.toJson(r, Room.class));
+        if (response.getStatus() != 201) { //201=created     
+            throw new Exception("add lesson failed:" + response.getEntity(String.class));
+        }
+    }
+
+    public void updateRoom(Room r) throws Exception {
+        WebResource resource = client.resource(uri + "rooms/update");
+        ClientResponse response = resource.type(MediaType.APPLICATION_JSON).put(ClientResponse.class, gson.toJson(r, Room.class));
+
+        if (response.getStatus() != 200) {
+            throw new Exception(response.getEntity(String.class));
+        }
     }
 
     public ArrayList<Lesson> getAllLessonsByRoomNr(String roomNr) throws Exception {
