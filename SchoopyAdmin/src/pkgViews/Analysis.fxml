@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pkgControllers.AnalysisController">
-    
+<AnchorPane id="AnchorPane" prefHeight="625.0" prefWidth="817.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pkgControllers.AnalysisController">
+   <children>
+      <PieChart fx:id="pieChartDepartment" layoutX="6.0" layoutY="24.0" prefHeight="289.0" prefWidth="403.0" />
+      <BarChart fx:id="barChartRoomLessons" layoutX="3.0" layoutY="322.0" prefHeight="289.0" prefWidth="811.0">
+        <xAxis>
+          <CategoryAxis fx:id="catAxisBar" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="numAxisBar" side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <StackPane fx:id="mySP" layoutX="310.0" layoutY="224.0" prefHeight="53.0" prefWidth="99.0" />
+      <PieChart fx:id="pieChartSubjects" layoutX="413.0" layoutY="26.0" prefHeight="289.0" prefWidth="403.0" />
+   </children>
 </AnchorPane>

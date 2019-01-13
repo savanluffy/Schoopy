@@ -66,7 +66,7 @@ public class CurricilumController implements Initializable {
             db = Database.newInstance();
             cbRooms.setItems(FXCollections.observableArrayList(db.getAllSchoolRooms())); //schulräume nur
         } catch (Exception ex) {
-            Logger.getLogger(CurricilumController.class.getName()).log(Level.SEVERE, null, ex);
+            showResultDialog("An error has occured:", ex.getMessage());
         }
     }
 
