@@ -43,8 +43,8 @@ namespace Schoopy
         private void initStdplan()
         {
 
-            string json = c.Get(@"http://localhost:8080/WebServiceSchoopy/webresources/lessons/teachers/"+ tName);
-            Console.WriteLine(c.Get(@"http://localhost:8080/WebServiceSchoopy/webresources/lessons/114b"));
+          // string json = c.Get(@"http://localhost:8080/WebServiceSchoopy/webresources/lessons/teachers/"+ tName);
+            string json = (c.Get(@"http://localhost:8080/WebServiceSchoopy/webresources/lessons/114b"));
 
             List<Lesson> deserializedProduct = JsonConvert.DeserializeObject<List<Lesson>>(json);
 
