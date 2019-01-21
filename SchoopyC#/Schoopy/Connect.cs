@@ -35,5 +35,7 @@ namespace Schoopy
                 return await reader.ReadToEndAsync();
             }
         }
+
+        
     }
 }

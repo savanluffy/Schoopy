@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Schoopy
 {
-    public class Person
+    public abstract class Person
     {
         public String firstName { get; set; }
         public String lastName { get; set; }
@@ -14,5 +14,15 @@ namespace Schoopy
         public String username { get; set; }
         public String password { get; set; }
 
+        public Person(String _username, String _password)
+        {
+            this.username = _username;
+            this.password = _password;
+        }
+
+        public Person()
+        {
+
+        }
     }
 }

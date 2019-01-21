@@ -64,24 +64,20 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Connect.cs" />
-    <Compile Include="Database.cs" />
+    <Compile Include="Data\Stunde.cs" />
+    <Compile Include="Data\Stundenplan.cs" />
     <Compile Include="Dokument.xaml.cs">
       <DependentUpon>Dokument.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\Lesson.cs" />
-    <Compile Include="MainUserControll.xaml.cs">
-      <DependentUpon>MainUserControll.xaml</DependentUpon>
+    <Compile Include="LessonDetail.xaml.cs">
+      <DependentUpon>LessonDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\Person.cs" />
     <Compile Include="Data\Room.cs" />
-    <Compile Include="Schueler.xaml.cs">
-      <DependentUpon>Schueler.xaml</DependentUpon>
-    </Compile>
     <Compile Include="StudenplanWindow.xaml.cs">
       <DependentUpon>StudenplanWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Stunde.cs" />
-    <Compile Include="Stundenplan.cs" />
     <Compile Include="Data\Subject.cs" />
     <Compile Include="Data\Teacher.cs" />
     <Compile Include="Data\TeacherSpecialization.cs" />
@@ -92,11 +88,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainUserControll.xaml">
+    <Page Include="LessonDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,17 +100,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Schueler.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="StudenplanWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

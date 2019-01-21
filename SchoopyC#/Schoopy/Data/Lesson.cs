@@ -16,5 +16,10 @@ namespace Schoopy
         public Weekday weekday { get; set; }
 
         public int schoolHour { get; set; }
+
+        public override string ToString()
+        {
+            return this.teachinginfo.subject.subjectName;
+        }
     }
 }

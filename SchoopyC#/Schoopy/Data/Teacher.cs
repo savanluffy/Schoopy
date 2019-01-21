@@ -8,6 +8,16 @@ namespace Schoopy
 {
     public class Teacher : Person
     {
+       public Teacher()
+        {
 
+
+        }
+
+        public Teacher( string _username , string _passwort)
+        {
+            this.password = _passwort;
+            this.username = _username;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Schoopy.Data;
 
 namespace Schoopy
 {
@@ -22,14 +24,14 @@ namespace Schoopy
     /// </summary>
     public partial class StudenplanWindow : Window
     {
-        public StudenplanWindow()
+        Connect c = new Connect();
+        string tName;
+        public StudenplanWindow( string teachername)
         {
             InitializeComponent();
             initStdplan();
-            // Database d = new Database();
-            // d.start();
-            Connect c = new Connect();
-            Console.WriteLine(c.Get(@"http://localhost:8080/WebServiceSchoopy/webresources/subjects"));
+            tName = teachername;
+
 
         }
 
@@ -40,31 +42,58 @@ namespace Schoopy
 
         private void initStdplan()
         {
-          
+
+            string json = c.Get(@"http://localhost:8080/WebServiceSchoopy/webresources/lessons/teachers/"+ tName);
+            Console.WriteLine(c.Get(@"http://localhost:8080/WebServiceSchoopy/webresources/lessons/114b"));
+
+            List<Lesson> deserializedProduct = JsonConvert.DeserializeObject<List<Lesson>>(json);
+
             col1.Binding = new Binding("Montag");
             col2.Binding = new Binding("Dienstag");
             col3.Binding = new Binding("Mittwoch");
             col4.Binding = new Binding("Donnerstag");
             col5.Binding = new Binding("Freitag");
 
-            Stunde s = new Stunde("mon", "1", "hui");
-            Stunde s2 = new Stunde("di", "2", "tui");
-            Stunde s3 = new Stunde("mit", "3", "aa1");
-            Stunde s4 = new Stunde("don", "4", "aaa");
-            Stunde s5 = new Stunde("frei", "5", "444");
+           
 
-            Stundenplan st = new Stundenplan { Montag = s, Dienstag = s2, Mittwoch = s3, Donnerstag = s4, Freitag = s };
-            Stundenplan st2 = new Stundenplan { Montag = s2, Dienstag = s, Mittwoch = s3, Donnerstag = s5, Freitag = s4 };
-            //Stunde data = new Stunde { Montag = "Harry Potter", Dienstag = "J. K. Rollings", Mittwoch = "Mistery", Donnerstag = "H-I", Freitag = " 3 " };
-            // Stunde data2 = new Stunde { Montag = "Deutsch", Dienstag = "Mathe", Mittwoch = "Pos", Donnerstag = "Deutsch", Freitag = " E" };
-            //dataGrid.Items.Add(data);
-            dataGrid.Items.Add(st);
-            dataGrid.Items.Add(st2);
+         
 
+            for (int i = 0; i < deserializedProduct.Count; i++)
+            {
+                Stundenplan curSP = new Stundenplan();
+                Lesson l = deserializedProduct[i];
+              
+                if (l.schoolHour == i + 1)
+                {
+                    switch (l.weekday)
+                    {
+                        case Weekday.MONDAY:
+                            curSP.Montag = l;
+                            break;
+                        case Weekday.TUESDAY:
+                            curSP.Dienstag = l;
+                            break;
+                        case Weekday.WEDNESDAY:
+                            curSP.Mittwoch = l;
+                            break;
+                        case Weekday.THURSDAY:
+                            curSP.Donnerstag = l;
+                            break;
+                        case Weekday.FRIDAY:
+                            curSP.Freitag = l;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                dataGrid.Items.Add(curSP);
+            }
+
+         
 
         }
 
-        
+
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -73,7 +102,7 @@ namespace Schoopy
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
@@ -82,173 +111,56 @@ namespace Schoopy
         }
 
 
-    
 
-     /*   private void dataGrid_SelectedCellsChanged_1(object sender, SelectedCellsChangedEventArgs e)
+
+
+
+     
+
+
+
+       
+
+        private void button_Click_1(object sender, RoutedEventArgs e)
         {
-
-            
             try
             {
 
 
-                Console.WriteLine();
-            }catch(Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace);
-            }
+                Stundenplan sp = (Stundenplan)dataGrid.SelectedCells[0].Item;
 
 
-
-        }
-
-        private void dataGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void dataGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DependencyObject dep = (DependencyObject)e.OriginalSource;
-
-            while ((dep != null) && !(dep is DataGridCell) && !(dep is DataGridColumnHeader))
-            {
-                dep = VisualTreeHelper.GetParent(dep);
-            }
-
-            if (dep == null)
-                return;
-
-            if (dep is DataGridColumnHeader)
-            {
-                DataGridColumnHeader columnHeader = dep as DataGridColumnHeader;
-
-                // find the property that this cell's column is bound to
-                string boundPropertyName = FindBoundProperty(columnHeader.Column);
-
-                int columnIndex = columnHeader.Column.DisplayIndex;
-
-                ClickedItemDisplay.Text = string.Format(
-                    "Header clicked [{0}] = {1}",
-                    columnIndex, boundPropertyName);
-
-
-            }
-
-            if (dep is DataGridCell)
-            {
-                DataGridCell cell = dep as DataGridCell;
-
-                // navigate further up the tree
-                while ((dep != null) && !(dep is DataGridRow))
+                string s = dataGrid.SelectedCells[0].Column.Header.ToString();
+                switch (s)
                 {
-                    dep = VisualTreeHelper.GetParent(dep);
+                    case "Montag":
+
+                        LessonDetail win2 = new LessonDetail(sp.Montag);
+                        win2.Show();
+                        break;
+                    case "Dienstag":
+                        LessonDetail win3 = new LessonDetail(sp.Dienstag);
+                        win3.Show();
+                        break;
+                    case "Mittwoch":
+                        LessonDetail win4 = new LessonDetail(sp.Mittwoch);
+                        win4.Show();
+                        break;
+                    case "Donnerstag":
+                        LessonDetail win5 = new LessonDetail(sp.Donnerstag);
+                        win5.Show();
+                        break;
+                    case "Freitag":
+                        LessonDetail win6 = new LessonDetail(sp.Freitag);
+                        win6.Show();
+                        break;
                 }
 
-                if (dep == null)
-                    return;
-
-                DataGridRow row = dep as DataGridRow;
-
-                object value = ExtractBoundValue(row, cell);
-
-                int columnIndex = cell.Column.DisplayIndex;
-                int rowIndex = FindRowIndex(row);
-
-                ClickedItemDisplay.Text = string.Format(
-                      "Cell clicked [{0}, {1}] = {2}",
-                      rowIndex, columnIndex, value.ToString());
-
             }
-        }
-        private int FindRowIndex(DataGridRow row)
-        {
-            DataGrid dataGrid = ItemsControl.ItemsControlFromItemContainer(row) as DataGrid;
-
-            int index = dataGrid.ItemContainerGenerator.IndexFromContainer(row);
-
-            return index;
-        }
-        private object ExtractBoundValue(DataGridRow row, DataGridCell cell)
-        {
-            // find the property that this cell's column is bound to
-            string boundPropertyName = FindBoundProperty(cell.Column);
-
-            // find the object that is realted to this row
-            object data = row.Item;
-
-            // extract the property value
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(data);
-            PropertyDescriptor property = properties[boundPropertyName];
-            object value = property.GetValue(data);
-
-            return value;
-        }
-
-      
-        private string FindBoundProperty(DataGridColumn col)
-        {
-            DataGridBoundColumn boundColumn = col as DataGridBoundColumn;
-
-            // find the property that this column is bound to
-            Binding binding = boundColumn.Binding as Binding;
-            string boundPropertyName = binding.Path.Path;
-
-            return boundPropertyName;
-        }*/
-
-
-        void b1SetColor(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Clicked" + sender.ToString());
-           //  Stunde s = (Stunde) dataGrid.CurrentCell.Column.ToString();
-
-           // MessageBox.Show(dataGrid.CurrentCell.Column.ToString());
-           
-            MessageBox.Show(dataGrid.SelectedCells.Count.ToString());
-            // MessageBox.Show("Clicked" + dataGrid.SelectedCells[0].ToString());
-
-        }
-
-        
-
-        private void buttonSearch_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
-
-        private void button_Click_1(object sender, RoutedEventArgs e)
-        {
-         
-            Stundenplan sp = (Stundenplan)dataGrid.SelectedCells[0].Item;
-          
-
-            string s = dataGrid.SelectedCells[0].Column.Header.ToString();
-            switch (s)
+            catch (Exception ex)
             {
-                case "Montag":
-                    
-                    MessageBox.Show(sp.Montag.ToString());
-                    break;
-                case "Dienstag":
-                   
-                    MessageBox.Show(sp.Dienstag.ToString());
-                    break;
-                case "Mittwoch":
-                  
-                    MessageBox.Show(sp.Mittwoch.ToString());
-                    break;
-                case "Donnerstag":
-                
-                    MessageBox.Show(sp.Donnerstag.ToString());
-                    break;
-                case "Freitag":
-                   
-                    MessageBox.Show(sp.Freitag.ToString());
-                    break;
+                MessageBox.Show(ex.Message);
             }
-
         }
     }
-
 }

@@ -1,0 +1,18 @@
+﻿<Window x:Class="Schoopy.LessonDetail"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Schoopy"
+        mc:Ignorable="d"
+        Title="LessonDetail" Height="300" Width="300">
+    <Grid>
+        <Label x:Name="label" Content="Room:" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="91"/>
+        <Label x:Name="label1" Content="Hour:" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label2" Content="Weekday:" HorizontalAlignment="Left" Margin="10,96,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelRomm" Content="" HorizontalAlignment="Left" Margin="106,7,0,0" VerticalAlignment="Top" Width="176"/>
+        <Label x:Name="labelHour" Content="" HorizontalAlignment="Left" Margin="106,51,0,0" VerticalAlignment="Top" Width="176"/>
+        <Label x:Name="labelWeekday" Content="" HorizontalAlignment="Left" Margin="106,96,0,0" VerticalAlignment="Top" Width="176"/>
+
+    </Grid>
+</Window>
