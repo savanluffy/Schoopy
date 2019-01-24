@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Schoopy"
         mc:Ignorable="d"
-        Title="Dokument" Height="300" Width="300">
+        Title="Dokument" Height="300" Width="438" Background="#2e3137">
     <Grid>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="203" Margin="10,45,0,0" VerticalAlignment="Top" Width="153"/>
-        <Button x:Name="button" Content="add Private Doc" HorizontalAlignment="Left" Margin="182,59,0,0" VerticalAlignment="Top" Width="103"/>
-        <Button x:Name="button1" Content="add public Doc" HorizontalAlignment="Left" Margin="182,105,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="button2" Content="open Doc" HorizontalAlignment="Left" Margin="182,153,0,0" VerticalAlignment="Top" Width="100"/>
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="203" Margin="10,45,0,0" VerticalAlignment="Top" Width="153" Background="#545d6a"  Foreground="White"/>
+        <Button x:Name="button" Content="add Private Doc" HorizontalAlignment="Left" Margin="182,59,0,0" VerticalAlignment="Top" Width="103" Click="button_Click" Background="#545d6a"  Foreground="White"/>
+        <Button x:Name="button1" Content="add public Doc" HorizontalAlignment="Left" Margin="182,105,0,0" VerticalAlignment="Top" Width="238" Click="button1_Click" Background="#545d6a"  Foreground="White"/>
+        <Button x:Name="button2" Content="open Doc" Margin="182,153,0,0" VerticalAlignment="Top" Click="button2_Click" HorizontalAlignment="Left" Width="238" Background="#545d6a"  Foreground="White"/>
+        <Label x:Name="lbl_msg" Content="Label" HorizontalAlignment="Left" Margin="10,253,0,0" VerticalAlignment="Top" Width="272"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="300,59,-47,0" VerticalAlignment="Top" Width="120" />
 
     </Grid>
 </Window>

@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Schoopy"
         mc:Ignorable="d"
-        Title="LessonDetail" Height="339.574" Width="808.085">
+        Title="LessonDetail" Height="339.574" Width="892.085" Background="#2e3137">
     <Grid>
-        <Label x:Name="label" Content="Room:" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="91"/>
-        <Label x:Name="label1" Content="Hour:" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="label2" Content="Weekday:" HorizontalAlignment="Left" Margin="10,96,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="labelRomm" Content="" HorizontalAlignment="Left" Margin="106,7,0,0" VerticalAlignment="Top" Width="176"/>
-        <Label x:Name="labelHour" Content="" HorizontalAlignment="Left" Margin="106,51,0,0" VerticalAlignment="Top" Width="176"/>
-        <Label x:Name="labelWeekday" Content="" HorizontalAlignment="Left" Margin="106,96,0,0" VerticalAlignment="Top" Width="176"/>
-        <Canvas Name="lessonCanvas" HorizontalAlignment="Left" Height="289" Margin="301,10,0,0" VerticalAlignment="Top" Width="489"/>
+        <Label x:Name="label" Content="Room:" HorizontalAlignment="Left" Height="42" Margin="10,12,0,0" VerticalAlignment="Top" Width="108" Foreground="White"/>
+        <Label x:Name="label1" Content="Hour:" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top" Foreground="White" Height="48" Width="46"/>
+        <Label x:Name="label2" Content="Weekday:" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" Foreground="White" Height="47" Width="72"/>
+        <Label x:Name="labelRomm" Content="" HorizontalAlignment="Left" Margin="124,7,0,0" VerticalAlignment="Top" Width="177"  Background="#545d6a" Foreground="White" Height="47"/>
+        <Label x:Name="labelHour" Content="" HorizontalAlignment="Left" Margin="124,87,0,0" VerticalAlignment="Top" Width="177"  Background="#545d6a" Foreground="White" Height="48"/>
+        <Label x:Name="labelWeekday" Content="" HorizontalAlignment="Left" Margin="124,170,0,0" VerticalAlignment="Top" Width="177"  Background="#545d6a" Foreground="White" Height="47"/>
+        <Canvas Name="lessonCanvas" HorizontalAlignment="Left" Height="289" Margin="353,10,0,0" VerticalAlignment="Top" Width="489"/>
 
     </Grid>
 </Window>

@@ -5,19 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Schoopy"
         mc:Ignorable="d"
-        Title="StudenplanWindow" Height="300" Width="512.658">
+        Title="Studenplan" Height="300" Width="512.658" Background="#2e3137">
     <Grid>
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="505">
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="505" Background="#2e3137" Foreground="White">
 
             <MenuItem Header="Stundenplan" Click="MenuItem_Click">
             </MenuItem>
-            <MenuItem Header="Dokumente" Click="MenuItem_Click_1">
+            <MenuItem Header="Dokumente" Click="MenuItem_Click_1" Height="25">
             </MenuItem>
             <MenuItem Header="Schüler" Click="MenuItem_Click_2">
             </MenuItem>
         </Menu>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="0,68,0,0" VerticalAlignment="Top" Width="495" Height="191"  SelectionUnit="Cell"   >
-            <DataGrid.Columns > 
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="0,50,0,0" VerticalAlignment="Top" Width="495" Height="209"  SelectionUnit="Cell"  Background="#2e3137"  Foreground="#2e3137" >
+            <DataGrid.Columns >
                 <DataGridTextColumn Header="Montag" Width="*" x:Name="col1" />
                 <DataGridTextColumn Header="Dienstag"  Width="*" x:Name="col2"/>
                 <DataGridTextColumn Header="Mittwoch"  Width="*" x:Name="col3"/>
@@ -26,11 +26,11 @@
             </DataGrid.Columns>
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
-                   
+
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        <Button x:Name="button" Content="Details" HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Width="75" Click="button_Click_1"/>
+        <Button x:Name="button" Content="Details" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="75" Click="button_Click_1" Background="#545d6a"  Foreground="White"/>
 
 
 

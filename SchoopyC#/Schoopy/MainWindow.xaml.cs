@@ -35,7 +35,7 @@ namespace Schoopy
 
             Teacher t = new Teacher();
             t.username = textBoxUsername.Text;
-            t.password = textBoxPasswort.Text;
+            t.password = passwordBox.Password.ToString();
             var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(t);
            
 

@@ -45,6 +45,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,6 +65,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Connect.cs" />
+    <Compile Include="Data\Blob.cs" />
+    <Compile Include="Data\LocalDate.cs" />
+    <Compile Include="Data\PrivateFile.cs" />
+    <Compile Include="Data\PublicFile.cs" />
+    <Compile Include="Data\Student.cs" />
     <Compile Include="Data\Stunde.cs" />
     <Compile Include="Data\Stundenplan.cs" />
     <Compile Include="Dokument.xaml.cs">
@@ -81,8 +87,8 @@
     <Compile Include="Data\Subject.cs" />
     <Compile Include="Data\Teacher.cs" />
     <Compile Include="Data\TeacherSpecialization.cs" />
-    <Compile Include="UserControl1.xaml.cs">
-      <DependentUpon>UserControl1.xaml</DependentUpon>
+    <Compile Include="StudentController.xaml.cs">
+      <DependentUpon>StudentController.xaml</DependentUpon>
     </Compile>
     <Page Include="Dokument.xaml">
       <SubType>Designer</SubType>
@@ -108,7 +114,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl1.xaml">
+    <Page Include="StudentController.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

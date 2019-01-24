@@ -19,16 +19,17 @@ namespace Schoopy
     /// </summary>
     public partial class LessonDetail : Window
     {
-        Lesson initLesson;
+        
         public LessonDetail(Lesson l)
         {
-            InitializeComponent();
-            initLesson = l;
+            InitializeComponent();                    
             drawSchool();
+            init(l);
         }
 
-        public void init()
+        public void init(Lesson initLesson)
         {
+            Console.WriteLine(initLesson.ToString());
             labelHour.Content = initLesson.schoolHour.ToString();
             labelRomm.Content = initLesson.teachingRoom.roomNr.ToString();
             labelWeekday.Content = initLesson.weekday.ToString();

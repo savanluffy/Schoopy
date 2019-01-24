@@ -15,6 +15,11 @@ namespace Schoopy
         public Lesson Mittwoch { get; set; }
         public Lesson Donnerstag { get; set; }
         public Lesson Freitag { get; set; }
+
+        public override string ToString()
+        {
+            return this.Montag + "     " + this.Dienstag + "     " + this.Mittwoch + "      " + this.Donnerstag + "     " +this.Freitag;
+        }
     }
 
 }

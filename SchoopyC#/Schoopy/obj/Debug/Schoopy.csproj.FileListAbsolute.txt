@@ -24,11 +24,9 @@ C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\bin\Debug\Schoopy.exe.
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\bin\Debug\Schoopy.exe
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\bin\Debug\Schoopy.pdb
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schoopy.csprojResolveAssemblyReference.cache
-C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\UserControl1.g.cs
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\App.g.cs
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schoopy_MarkupCompile.cache
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schoopy_MarkupCompile.lref
-C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\UserControl1.baml
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schoopy.g.resources
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schoopy.Properties.Resources.resources
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Schoopy.csproj.GenerateResource.Cache
@@ -46,3 +44,5 @@ C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\Dokument.bam
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\LessonDetail.baml
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\MainWindow.baml
 C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\StudenplanWindow.baml
+C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\StudentController.g.cs
+C:\Users\Sandro\Desktop\Schule 2018\BSD\SchoopyC#\Schoopy\obj\Debug\StudentController.baml

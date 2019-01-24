@@ -13,7 +13,10 @@ namespace Schoopy
         public string roomNr { get; set; }
         public string roomDescription { get; set; }
         public Department department { get; set; }
-        
 
+        public override string ToString()
+        {
+            return this.roomDescription;
+        }
     }
 }

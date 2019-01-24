@@ -19,7 +19,7 @@ namespace Schoopy
 
         public override string ToString()
         {
-            return this.teachinginfo.subject.subjectName;
+            return this.teachinginfo.subject.subjectName ;
         }
     }
 }

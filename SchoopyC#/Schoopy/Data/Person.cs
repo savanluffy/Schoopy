@@ -8,16 +8,25 @@ namespace Schoopy
 {
     public abstract class Person
     {
-        public String firstName { get; set; }
-        public String lastName { get; set; }
-        public String schoolemail { get; set; }
-        public String username { get; set; }
-        public String password { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string schoolemail { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
 
-        public Person(String _username, String _password)
+        public Person(string _username, string _password)
         {
             this.username = _username;
             this.password = _password;
+        }
+
+        public Person(string _username, string _password , string _firstname, string lastname, string schoolemail)
+        {
+            this.username = _username;
+            this.password = _password;
+            this.firstName = _firstname;
+            this.lastName = lastName;
+            this.schoolemail = schoolemail;
         }
 
         public Person()
