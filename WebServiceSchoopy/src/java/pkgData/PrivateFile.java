@@ -39,11 +39,6 @@ public class PrivateFile extends PublicFile{
         this.folderRoom = folderRoom;
     }
 
-    @Override
-    public String toString() {
-        return "PrivateFolderContent{" + "publisherStudent=" + publisherStudent + ", folderRoom=" + folderRoom + '}';
-    }
-  
     
     
 }

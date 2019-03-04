@@ -753,7 +753,7 @@ public class Database {
         ArrayList<Lesson> collLessons = new ArrayList<>();
 
         conn = createConnection();
-        String select = "SELECT * FROM Lesson WHERE schoolRoom=?";
+        String select = "SELECT * FROM Lesson WHERE schoolRoom=? order by schoolHour";
         PreparedStatement stmt = conn.prepareStatement(select);
         stmt.setString(1, roomNr);
         ResultSet rs = stmt.executeQuery();
@@ -790,9 +790,24 @@ public class Database {
     public Collection<Lesson> getAllLessonsByTeacher(String teacherUN) throws Exception {
         ArrayList<Lesson> collLessons = new ArrayList<>();
         conn = createConnection();
-        String select = "SELECT * FROM Lesson WHERE teacherUN=?";
+        String select = "SELECT * FROM Lesson WHERE teacherUN=? ";
         PreparedStatement stmt = conn.prepareStatement(select);
         stmt.setString(1, teacherUN);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            collLessons.add(getLessonValues(rs));
+        }
+        conn.close();
+        return collLessons;
+    }
+    
+    public Collection<Lesson> getAllLessonsByTeacherAtCurrDay(String teacherUN,String wd) throws Exception {
+        ArrayList<Lesson> collLessons = new ArrayList<>();
+        conn = createConnection();
+        String select = "SELECT * FROM Lesson WHERE teacherUN=? and weekDay=? order by schoolhour";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, teacherUN);
+        stmt.setString(2, wd);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             collLessons.add(getLessonValues(rs));
