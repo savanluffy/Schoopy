@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -75,7 +76,6 @@ public class StudentService {
     @POST
     @Path("/login")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
     public Response loginStudent(String newStudent) throws Exception {
         Response r = null;
         try {
@@ -84,8 +84,6 @@ public class StudentService {
             if (s == null) {
                 throw new Exception("no user found");
             }
-            //String token = Encrypth.generateRandomKey(s.getUsername(), s.getPassword());
-            // Authentificator.loginToken(token);
             r = Response.ok().entity(gson.toJson(s)).build();
         } catch (Exception ex) {
             r = Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
@@ -93,7 +91,7 @@ public class StudentService {
         return r;
     }
 
-    @POST
+    @PUT
     @Path("/update")
     @Consumes({MediaType.APPLICATION_JSON})
     public Response updateStudent(String updateStudent) {

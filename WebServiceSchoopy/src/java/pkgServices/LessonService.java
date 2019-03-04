@@ -22,6 +22,7 @@ import pkgData.Lesson;
 import pkgData.Room;
 import pkgData.SchoopyAdmin;
 import pkgData.Subject;
+import pkgData.WeekDay;
 
 /**
  *
@@ -42,6 +43,14 @@ public class LessonService {
         }
     }
 
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPublicFiles() throws Exception {
+        Response r = Response.status(Response.Status.OK).entity("hello").build();
+        return r;
+       // return Response.ok().entity(gson.toJson(db.getAllPublicFiles())).build();
+    }
+    
     @GET
     @Path("/{roomNr}")
     @Produces({MediaType.APPLICATION_JSON})
@@ -66,6 +75,14 @@ public class LessonService {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getLessonsByTeacher(@PathParam("teacherUN") String teacherUN) throws Exception {
         return Response.ok().entity(gson.toJson(db.getAllLessonsByTeacher(teacherUN))).build();
+    }
+
+    @GET
+    @Path("/teachers/{teacherUN}/{weekDay}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getLessonsByTeacherAtCurrDay(@PathParam("teacherUN") String teacherUN,@PathParam("weekDay") String wk) throws Exception {
+        System.out.println("kapi");
+        return Response.ok().entity(gson.toJson(db.getAllLessonsByTeacherAtCurrDay(teacherUN,wk))).build();
     }
 
     @POST
