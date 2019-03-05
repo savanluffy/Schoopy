@@ -36,15 +36,22 @@ public class PrivateFileService {
             System.out.println("error while trying to create db.");
         }
     }
-
-
-    
+   
     @GET
     @Path("/{folderRoomNr}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getPrivateFiles(@PathParam("folderRoomNr") String folderRoomNr) throws Exception {
-        return Response.ok().entity(gson.toJson(db.getPrivateFiles(folderRoomNr))).build();
+    public Response getPrivateFilesWithoutContent(@PathParam("folderRoomNr") String folderRoomNr) throws Exception {
+        return Response.ok().entity(gson.toJson(db.getAllPrivateFilesWithoutContent(folderRoomNr))).build();
     }
+    
+    @GET
+    @Path("/{folderRoomNr}/{fileId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPrivateFileWithContent(@PathParam("folderRoomNr") String folderRoomNr,@PathParam("fileId") int fileId) throws Exception {
+        return Response.ok().entity(gson.toJson(db.getPrivateFileWithContent(folderRoomNr,fileId))).build();
+    }
+    
+    
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})

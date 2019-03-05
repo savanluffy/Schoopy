@@ -39,8 +39,15 @@ public class PublicFileService {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getPublicFiles() throws Exception {
-        return Response.ok().entity(gson.toJson(db.getAllPublicFiles())).build();
+    public Response getPublicFilesWithoutContent() throws Exception {
+        return Response.ok().entity(gson.toJson(db.getAllPublicFilesWithoutContent())).build();
+    }
+    
+    @GET
+    @Path("/{fileId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPublicFileWithContent(@PathParam("fileId") int fileId) throws Exception {
+        return Response.ok().entity(gson.toJson(db.getPublicFileWithContent(fileId))).build();
     }
 
     @POST
