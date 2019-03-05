@@ -20,6 +20,14 @@ public class PrivateFile extends PublicFile{
         this.publisherStudent = publisherStudent;
         this.folderRoom = folderRoom;
     }
+    
+    public PrivateFile(int fileId, String fileName, LocalDate publishDate, Teacher publisherTeacher,Student publisherStudent, Room folderRoom) {
+        super(fileId, fileName, publishDate, publisherTeacher);
+        this.publisherStudent = publisherStudent;
+        this.folderRoom = folderRoom;
+    }
+    
+    
 
     
 

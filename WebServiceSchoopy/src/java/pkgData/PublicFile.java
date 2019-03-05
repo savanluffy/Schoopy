@@ -25,6 +25,13 @@ public class PublicFile {
         this.publishDate = publishDate;
         this.publisherTeacher = publisherTeacher;
     }
+    
+        public PublicFile(int fileId, String fileName, LocalDate publishDate, Teacher publisherTeacher) {
+        this.fileId = fileId;
+        this.fileName = fileName;
+        this.publishDate = publishDate;
+        this.publisherTeacher = publisherTeacher;
+    }
 
     public Teacher getPublisherTeacher() {
         return publisherTeacher;

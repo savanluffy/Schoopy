@@ -407,7 +407,7 @@ public class Database {
         conn.close();
     }
 
-    public Collection<PublicFile> getAllPublicFiles() throws Exception {
+    public Collection<PublicFile> getAllPublicFilesWithoutContent() throws Exception {
         ArrayList<PublicFile> collPublicFiles = new ArrayList<>();
 
         conn = createConnection();
@@ -415,13 +415,34 @@ public class Database {
         PreparedStatement stmt = conn.prepareStatement(select);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            collPublicFiles.add(getPublicFileValues(rs));
+            collPublicFiles.add(getPublicFileValuesWithoutContent(rs));
         }
         conn.close();
         return collPublicFiles;
     }
 
-    private PublicFile getPublicFileValues(ResultSet rs) throws Exception {
+    public PublicFile getPublicFileWithContent(int fileId) throws Exception {
+        PublicFile pf = null;
+
+        conn = createConnection();
+        String select = "SELECT * FROM PublicFile WHERE fileId=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setInt(1, fileId);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            pf=getPublicFileValuesWithContent(rs);
+        }
+        conn.close();
+        return pf;
+    }
+
+    private PublicFile getPublicFileValuesWithoutContent(ResultSet rs) throws Exception {
+        PublicFile pf = new PublicFile(rs.getInt("fileId"), rs.getString("fileName"),
+                rs.getDate("publishDate").toLocalDate(), getTeacher(rs.getString("publisherTeacher")));
+        return pf;
+    }
+        
+    private PublicFile getPublicFileValuesWithContent(ResultSet rs) throws Exception {
         PublicFile pf = new PublicFile(rs.getInt("fileId"), rs.getString("fileName"), rs.getBytes("fileContent"),
                 rs.getDate("publishDate").toLocalDate(), getTeacher(rs.getString("publisherTeacher")));
         return pf;
@@ -458,7 +479,7 @@ public class Database {
         conn.close();
     }
 
-    public Collection<PrivateFile> getPrivateFiles(String folderRoomNr) throws Exception {
+    public Collection<PrivateFile> getAllPrivateFilesWithoutContent(String folderRoomNr) throws Exception {
         ArrayList<PrivateFile> collPrivateFiles = new ArrayList<>();
 
         conn = createConnection();
@@ -467,17 +488,40 @@ public class Database {
         stmt.setString(1, folderRoomNr);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            collPrivateFiles.add(getPrivateFileValues(rs));
+            collPrivateFiles.add(getPrivateFileValuesWithoutContent(rs));
         }
         conn.close();
         return collPrivateFiles;
     }
+    
+    public PrivateFile getPrivateFileWithContent(String folderRoomNr,int fileId) throws Exception {
+        PrivateFile privateFile = null;
 
-    private PrivateFile getPrivateFileValues(ResultSet rs) throws Exception {
+        conn = createConnection();
+        String select = "SELECT * FROM PrivateFile WHERE folderRoom=? AND fileId=?";
+        PreparedStatement stmt = conn.prepareStatement(select);
+        stmt.setString(1, folderRoomNr);
+        stmt.setInt(2, fileId);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            privateFile=getPrivateFileValuesWithContent(rs);
+        }
+        conn.close();
+        return privateFile;
+    }
+    
+    
+
+    private PrivateFile getPrivateFileValuesWithContent(ResultSet rs) throws Exception {
         PrivateFile pf = new PrivateFile(rs.getInt("fileId"), rs.getString("fileName"), rs.getBytes("fileContent"),
                 rs.getDate("publishDate").toLocalDate(), getTeacher(rs.getString("publisherTeacher")), getStudent(rs.getString("publisherStudent")), getRoom(rs.getString("folderRoom")));
         return pf;
-
+    }
+    
+    private PrivateFile getPrivateFileValuesWithoutContent(ResultSet rs) throws Exception {
+        PrivateFile pf = new PrivateFile(rs.getInt("fileId"), rs.getString("fileName"),
+                rs.getDate("publishDate").toLocalDate(), getTeacher(rs.getString("publisherTeacher")), getStudent(rs.getString("publisherStudent")), getRoom(rs.getString("folderRoom")));
+        return pf;
     }
 
     public void addPrivateFile(PrivateFile newPrivateFile) throws Exception {
