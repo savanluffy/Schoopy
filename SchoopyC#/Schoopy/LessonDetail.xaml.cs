@@ -33,8 +33,32 @@ namespace Schoopy
             labelHour.Content = initLesson.schoolHour.ToString();
             labelRomm.Content = initLesson.teachingRoom.roomNr.ToString();
             labelWeekday.Content = initLesson.weekday.ToString();
+            labelClassname.Content = initLesson.teachingRoom.roomDescription;
+
+            drawPoint(initLesson);
+
+        }
+
+        public void drawPoint(Lesson initLesson)
+        {
+            double x1 = initLesson.teachingRoom.roomCoordinates[0];
+            double y1 = initLesson.teachingRoom.roomCoordinates[1];
 
 
+
+
+            Ellipse el = new Ellipse();
+            el.Width = 30;
+            el.Height = 30;
+            el.SetValue(Canvas.LeftProperty, initLesson.teachingRoom.roomCoordinates[2] / 2);
+            el.SetValue(Canvas.TopProperty, initLesson.teachingRoom.roomCoordinates[5] / 2);
+            el.Fill = Brushes.White;
+
+
+
+            lessonCanvas.Children.Add(el);
+            Console.WriteLine(initLesson.teachingRoom.roomCoordinates[2] / 2);
+            Console.WriteLine(initLesson.teachingRoom.roomCoordinates[5] / 2);
         }
 
         public void drawSchool()

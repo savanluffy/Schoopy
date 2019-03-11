@@ -14,6 +14,8 @@
         <Label x:Name="labelHour" Content="" HorizontalAlignment="Left" Margin="124,87,0,0" VerticalAlignment="Top" Width="177"  Background="#545d6a" Foreground="White" Height="48"/>
         <Label x:Name="labelWeekday" Content="" HorizontalAlignment="Left" Margin="124,170,0,0" VerticalAlignment="Top" Width="177"  Background="#545d6a" Foreground="White" Height="47"/>
         <Canvas Name="lessonCanvas" HorizontalAlignment="Left" Height="289" Margin="353,10,0,0" VerticalAlignment="Top" Width="489"/>
+        <Label x:Name="label2_Copy" Content="Classname:" HorizontalAlignment="Left" Margin="10,252,0,0" VerticalAlignment="Top" Foreground="White" Height="47" Width="72"/>
+        <Label x:Name="labelClassname" HorizontalAlignment="Left" Margin="124,238,0,0" VerticalAlignment="Top" Width="177" Height="40"  Background="#545d6a" Foreground="White"/>
 
     </Grid>
 </Window>

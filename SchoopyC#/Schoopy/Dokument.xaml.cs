@@ -30,11 +30,11 @@ namespace Schoopy
         private void init()
         {
             listBox.Items.Clear();
-            string json = (c.Get(@"http://localhost:8080/WebServiceSchoopy/webresources/publicfiles"));
+            string json = (c.Get(@"http://192.168.195.165:8080/WebServiceSchoopy/webresources/publicfiles"));
 
-            //List<PublicFile> deserializedPublicFile = new JavaScriptSerializer().Deserialize<List<PublicFile>>(json);
+           List<PublicFile> deserializedPublicFile = new JavaScriptSerializer().Deserialize<List<PublicFile>>(json);
             //var Data = serializer.Deserialize<List<UserData>>(json);
-            List<PublicFile> deserializedPublicFile = JsonConvert.DeserializeObject<List<PublicFile>>(json);
+            //List<PublicFile> deserializedPublicFile = JsonConvert.DeserializeObject<List<PublicFile>>(json);
             for (int i = 0; i < deserializedPublicFile.Count; i++)
             {
                 listBox.Items.Add(deserializedPublicFile.ElementAt(i));
@@ -43,6 +43,10 @@ namespace Schoopy
 
         private async void button_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+
+          
             Room r = (Room)comboBox.SelectedItem;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
@@ -74,12 +78,16 @@ namespace Schoopy
             var jsonString = new JavaScriptSerializer().Serialize(p);
             //var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(p);
 
-            var response = await client.PostAsync(@"http://localhost:8080/WebServiceSchoopy/webresources/privatefiles", new StringContent(jsonString, Encoding.UTF8, "application/json"));
+            var response = await client.PostAsync(@"http://192.168.195.165:8080/WebServiceSchoopy/webresources/privatefiles", new StringContent(jsonString, Encoding.UTF8, "application/json"));
             var responseString = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseString);
 
             init();
             MessageBox.Show("File was added to the folder from the class: " + r.ToString());
+            }catch(Exception ex)
+            {
+                MessageBox.Show("Please select a class from the Combobox");
+            }
 
         }
 
@@ -113,7 +121,7 @@ namespace Schoopy
             var jsonString = new JavaScriptSerializer().Serialize(p);
             //var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(p);
 
-            var response = await client.PostAsync(@"http://localhost:8080/WebServiceSchoopy/webresources/publicfiles", new StringContent(jsonString, Encoding.UTF8, "application/json")) ;
+            var response = await client.PostAsync(@"http://192.168.195.165:8080/WebServiceSchoopy/webresources/publicfiles", new StringContent(jsonString, Encoding.UTF8, "application/json")) ;
             var responseString = await response.Content.ReadAsStringAsync();
             Console.WriteLine(responseString);
 
@@ -123,20 +131,33 @@ namespace Schoopy
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            PublicFile p = (PublicFile)listBox.SelectedItem;
-            Blob b = new Blob(p.fileName, p.fileContent);
+            try
+            {
+                PublicFile p = (PublicFile)listBox.SelectedItem;
+                if (p == null)
+                {
+                    throw new Exception("Please select a file!");
+                }
+                string json = (c.Get(@"http://192.168.195.165:8080/WebServiceSchoopy/webresources/publicfiles/"+p.fileId));
 
-            SaveFileDialog sfDialog = new SaveFileDialog();
-            string tempfile = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + System.IO.Path.GetExtension(b.FileName);
-            File.WriteAllBytes(tempfile, p.fileContent);
-            Process.Start(tempfile);
-            
-           
+                PublicFile deserializedPublicFile = new JavaScriptSerializer().Deserialize<PublicFile>(json);
+                Blob b = new Blob(deserializedPublicFile.fileName, deserializedPublicFile.fileContent);
+                
+
+                SaveFileDialog sfDialog = new SaveFileDialog();
+                string tempfile = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + System.IO.Path.GetExtension(b.FileName);
+                File.WriteAllBytes(tempfile, deserializedPublicFile.fileContent);
+                Process.Start(tempfile);
+
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void initComboBox()
         {
-            string json = (c.Get(@"http://localhost:8080/WebServiceSchoopy/webresources/rooms"));
+            string json = (c.Get(@"http://192.168.195.165:8080/WebServiceSchoopy/webresources/rooms"));
             List<Room> deserializedRooms = JsonConvert.DeserializeObject<List<Room>>(json);
 
             foreach (Room r in deserializedRooms)
