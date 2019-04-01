@@ -1,0 +1,9 @@
+{
+  "name": "session-rater-js",
+  "version": "0.0.0",
+  "description": "SessionRaterJS",
+  "main": "app.js",
+  "author": {
+    "name": "Melanie"
+  }
+}

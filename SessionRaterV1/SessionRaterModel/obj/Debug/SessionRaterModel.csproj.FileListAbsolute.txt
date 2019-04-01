@@ -1,0 +1,6 @@
+C:\Users\Melanie\Documents\4AHIFS\BSD[POS1]\01_Vortrag\SessionRaterV1\SessionRaterModel\bin\Debug\SessionRaterModel.exe.config
+C:\Users\Melanie\Documents\4AHIFS\BSD[POS1]\01_Vortrag\SessionRaterV1\SessionRaterModel\bin\Debug\SessionRaterModel.exe
+C:\Users\Melanie\Documents\4AHIFS\BSD[POS1]\01_Vortrag\SessionRaterV1\SessionRaterModel\bin\Debug\SessionRaterModel.pdb
+C:\Users\Melanie\Documents\4AHIFS\BSD[POS1]\01_Vortrag\SessionRaterV1\SessionRaterModel\obj\Debug\SessionRaterModel.csprojResolveAssemblyReference.cache
+C:\Users\Melanie\Documents\4AHIFS\BSD[POS1]\01_Vortrag\SessionRaterV1\SessionRaterModel\obj\Debug\SessionRaterModel.exe
+C:\Users\Melanie\Documents\4AHIFS\BSD[POS1]\01_Vortrag\SessionRaterV1\SessionRaterModel\obj\Debug\SessionRaterModel.pdb

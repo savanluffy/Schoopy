@@ -1,0 +1,5 @@
+C:\Users\Valon Berisa\Desktop\SessionRaterV1\SessionRaterClient\bin\Debug\SessionRaterClient.exe.config
+C:\Users\Valon Berisa\Desktop\SessionRaterV1\SessionRaterClient\bin\Debug\SessionRaterClient.exe
+C:\Users\Valon Berisa\Desktop\SessionRaterV1\SessionRaterClient\bin\Debug\SessionRaterClient.pdb
+C:\Users\Valon Berisa\Desktop\SessionRaterV1\SessionRaterClient\obj\Debug\SessionRaterClient.exe
+C:\Users\Valon Berisa\Desktop\SessionRaterV1\SessionRaterClient\obj\Debug\SessionRaterClient.pdb
