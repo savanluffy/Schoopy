@@ -71,7 +71,7 @@ CREATE TABLE ChatMessage(
   classNr varchar2(50),
   sender varchar2(50),
   message varchar2(50),
-  sendDate date,
+  sendDate timestamp,
   CONSTRAINT fk_room2 FOREIGN KEY(classNr) REFERENCES Room(roomNr),
   CONSTRAINT fk_student1 FOREIGN KEY(sender) REFERENCES Student(username)
   
