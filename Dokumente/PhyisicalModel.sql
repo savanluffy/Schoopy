@@ -8,11 +8,15 @@ DROP TABLE ChatMessage;
 DROP TABLE Teacher;
 DROP TABLE Student;
 DROP TABLE Room;
+DROP TABLE ForumQuestion;
+DROP TABLE ForumAnswer;
 
 DROP SEQUENCE seqMessage;
 DROP SEQUENCE seqPublicFile;
 DROP SEQUENCE seqPrivateFile;
 DROP SEQUENCE seqSubject;
+DROP SEQUENCE seqForumQuestion;
+
 CREATE TABLE Room(
   roomNr varchar2(50) primary key,
   roomDescription varchar2(50),
@@ -140,4 +144,24 @@ CREATE TABLE SchoopyAdmin(
   password varchar2(50)
 );
 
+
+CREATE SEQUENCE seqForumQuestion START WITH 1 INCREMENT BY 1;
+CREATE TABLE ForumQuestion(
+  questionId INTEGER primary key,
+  title VARCHAR2(50),
+  description VARCHAR2(200),
+  votes INTEGER,
+  studentUN VARCHAR2(50),
+  CONSTRAINT fk_student3 FOREIGN KEY(studentUN) REFERENCES Student(username)
+);
+
+create table ForumAnswer(
+  questionId INTEGER,
+  studentUN varchar2(50),
+  answer varchar2(50),
+  isAcepted varchar2(50),
+  CONSTRAINT fk_student4 FOREIGN KEY(studentUN) REFERENCES Student(username),
+  CONSTRAINT check_forumanswer CHECK (isAcepted is not null and (isAcepted = 'YES' or isAcepted = 'NO')),
+  PRIMARY KEY(questionId,studentUN)
+ );				       
 COMMIT;
